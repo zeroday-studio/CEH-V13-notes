@@ -1,6 +1,13 @@
 # CEH-V13-notes
 # Footprinting and reconnissance
-<pre> ```bash site:example.com -inurl:www ``` </pre>
+
+<details>
+<summary>social media recon by using sherlock</summary>
+- google
+- sublist3r
+- some research websites
+
+
 
 
 
