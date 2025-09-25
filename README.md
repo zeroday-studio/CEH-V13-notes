@@ -1,2 +1,5 @@
 # CEH-V13-notes
-hi hellooo
+# Footprinting and reconnissance
+:~$ site:example.com -inurl:www
+
+
