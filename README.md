@@ -3,7 +3,8 @@
 
 <details>
 <summary>Subdomain Enumeration</summary>
-Google Dorking  
+  
+
 
 
 
