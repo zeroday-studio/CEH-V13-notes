@@ -3,6 +3,7 @@
 
 <details>
 <summary>Subdomain Enumeration</summary>
+
 ```console
 :~$ site:example.com -inurl:www
 ```
