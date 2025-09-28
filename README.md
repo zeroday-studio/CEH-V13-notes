@@ -17,11 +17,12 @@
   - cache: 
   - link: 
   - location:
-- Example :~
-  ```console 
-              site:google.com
-  ```
-    
+
+* Some Websites For Research Puspose :~
+  - Google Hacking Database(Exploits Database)
+    ```console 
+    Website :~https://www.exploit-db.com/google-hacking-database
+    ```
 </details>
 
 
