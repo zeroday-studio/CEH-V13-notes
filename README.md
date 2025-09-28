@@ -17,10 +17,11 @@
   - cache: 
   - link: 
   - location:
-* Example :~
-'''
-console site:example.com
-''' 
+   - Example :~
+  ```console 
+              site:google.com
+  ```
+    
 </details>
 
 
