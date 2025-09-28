@@ -17,7 +17,7 @@
   - cache: 
   - link: 
   - location:
-   - Example :~
+- Example :~
   ```console 
               site:google.com
   ```
