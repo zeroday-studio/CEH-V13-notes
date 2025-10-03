@@ -116,6 +116,7 @@
     * Scripting & vulnerability scans
       * NSE scripts (--script) — run scripts for discovery, vulnerability checks, brute force, etc
         * Example: nmap --script=vuln target.com or nmap --script=default,safe target.com
+
       * Service-specific scripts (e.g., --script smb*) — targeted checks
 
     * Scanning controls / evasion
@@ -140,6 +141,57 @@
     - Reconnaissance for red-team/social engineering — identify where a target might have accounts (defensive use only)  
 </details>
 
+<details>
+<summary>Whois Lookup Using Domain Tools</summary>
+
+* Details About Whois Domain Tool :~
+  - A WHOIS domain tool is an online service or command-line utility that lets you look up the public registration information of a domain name or IP address from WHOIS databases
+    - Identify domain owners — find the registrant/organization behind a domain (unless privacy-protected)
+    - Gather contact info — email/phone of the registrar or abuse contacts
+    - Timeline checks — see when the domain was created/updated/when it expires
+    - Detect suspicious domains — compare registration dates, patterns, and registrars to spot phishing or fake sites
+    - Map infrastructure — see related domains, name servers, IPs
+    - Incident response — get registrar abuse contacts to report malware or phishing
+    ```console
+        https://whois.domaintools.com/
+    ```   
+* IP2Location :~
+  - IP2Location is a commercial / database & API service that maps an IP address to geographic and related metadata (country, region, city, ISP, latitude/longitude, time zone, proxy/VPN flags, ASN, domain, etc.)  
+  ```console
+      https://www.ip2location.com/
+  ```      
+</details> 
+
+<details>
+<summary>DNS Information using nslookup</summary>
+
+* MXtoolbox(Find Domain Name) :~
+  - MXToolbox is a free/commercial online toolkit for checking and troubleshooting email, DNS, and network services. It started as a “Mail eXchanger (MX) lookup” tool but now includes many tests
+    - DNS lookups — A, AAAA, MX, TXT, SPF, DKIM, DMARC records
+    - Blacklist checks — see if an IP/domain is on spam or malware blocklists
+    - SMTP diagnostics — test mail servers, open relays, and routing problems
+    - Domain health audits — one-click scan for common misconfigurations
+    - Traceroute & ping — quick reachability tests
+    - Whois / ASN info — see registrar and network details
+    - Monitoring — continuous alerts if your mail server or DNS goes down or gets blacklisted
+      ```console
+          https://mxtoolbox.com/SuperTool.aspx?action=a%3agoogle.com&run=toolpage#
+      ```
+* DNS Record Types :~
+  - A	- Maps a hostname to an IPv4 address
+  - AAAA - Maps a hostname to an IPv6 address
+  - CNAME	- Canonical Name — alias one name to another (e.g. www → example.com)
+  - MX - Mail eXchanger — tells which servers handle email for the domain
+  - NS - Name Server — lists the authoritative DNS servers for the domain
+  - SOA - Start of Authority — contains admin info, serial numbers, refresh times for the zone
+  - TXT -	Free-text data; commonly used for SPF, DKIM, DMARC, verification tokens          
+</details>
+
+<details>
+<summary>Tracing Emails using eMailTrackerPro</summary>
+
+* 
+</details>
 
 
 
