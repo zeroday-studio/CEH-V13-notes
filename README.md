@@ -165,6 +165,39 @@
 <details>
 <summary>DNS Information using nslookup</summary>
 
+* DNSDumpster :~
+  - A free web-based reconnaissance tool that enumerates a domain’s DNS records and public attack surface and visualizes relationships (subdomains → IPs → netblocks). It scrapes DNS, CRT logs, public DNS servers, and passive sources to build a domain map
+    - Quick subdomain discovery — find subdomains that might be forgotten (dev, staging, old service
+    - DNS record snapshot — see A, AAAA, MX, NS, TXT, SOA, and PTR records in one view
+    - Mapping & visualization — network graph showing hosts, IPs, and associated netblocks (great for reports)
+    - Email infrastructure checks — reveals MX servers and mail hosts you should verify (SPF/DMARC gaps)
+    - Public exposure spotting — discover exposed services, cloud-hosted assets and orphaned hosts
+    - Triage & prioritization — fast way to find high-risk targets for further assessment (shodan, nmap)
+    -  Evidence for incident response — timeline / snapshot useful when investigating domain-related incidents
+    ```console
+            https://dnsdumpster.com/
+    ```    
+* nslookup(using in cmd) :~
+  - A command-line tool to query DNS records for a domain or IP
+  - commands
+    - nslookup
+    - set type=a (a=A record)
+    - www.certifiedhacker.com(domain name)
+    - set type=cname
+    - certifiedhacker.com(non-authoritative name)
+    - set type=a(if we wnt the primary email ip address u can use it again)
+    - enter primary email address
+  - for example DNS records:
+    - mx = for mail
+    - ns = for servers
+    - a = for ipv4
+    - aaaa = for ipv6
+
+* Kloth.net(website for nslookup and searching records) :~
+  - Kloth.net is an online DNS lookup tool that allows users to query various DNS record types (A, MX, TXT, NS, etc.) for any domain from an external resolver, useful for passive reconnaissance and troubleshooting
+      ```console
+         https://www.kloth.net/
+      ```   
 * MXtoolbox(Find Domain Name) :~
   - MXToolbox is a free/commercial online toolkit for checking and troubleshooting email, DNS, and network services. It started as a “Mail eXchanger (MX) lookup” tool but now includes many tests
     - DNS lookups — A, AAAA, MX, TXT, SPF, DKIM, DMARC records
@@ -190,8 +223,29 @@
 <details>
 <summary>Tracing Emails using eMailTrackerPro</summary>
 
-* 
+* eMailTrackerpro :~
+  - EmailTrackerPro is a web/email-tracking service that lets you track emails — who opened them, when, from what IP/location, which device, and what links were clicked. It usually works by embedding tracking pixels or tracked links in outgoing messages
+  ```console
+         https://emailtrackerpro.en.softonic.com/
+  ```   
 </details>
 
+<details>
+<summary>Footprinting a Target using Recon-ng</summary>
 
+* Reon-ng :~
+  - Recon-ng is an open-source web reconnaissance framework that automates OSINT gathering, helping security professionals collect, organize, and analyze information about domains, hosts, and people
+  ```console
+  - some commands
+    - recon-ng  -  (for opening the recon in terminal)
+    - marketplace install all  -  (where we are install all modules what we need)
+    - workspace create workspacename  -  (this command we use for creating the workspace)
+    - workspace load workspacename  -  (used for load existing workspace)
+    - workspace remove workspacename  -  (for remove existing workspace)
+    - db intert domains  -  (used to add the domain name)
+    - modules load modulesname  -  (used for load the modules)
+    - back  -  (used to come back to the privious module)
+  ```
+
+</details>
 
