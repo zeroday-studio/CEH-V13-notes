@@ -246,6 +246,40 @@
     - modules load modulesname  -  (used for load the modules)
     - back  -  (used to come back to the privious module)
   ```
+</details>
+
+<details>
+<summary>using sgpt</summary>
+ 
+ * sgpt :~
+  - sgpt is a small CLI (command-line) tool that lets you talk to OpenAI’s GPT (ChatGPT) from your terminal.
+It’s basically a wrapper around the OpenAI API.
+  - commands
+    - sgpt "--------------" or
+    - sgpt --chat nameofthetopic --shell "---------------"
 
 </details>
 
+<details>
+<summary>Footprinting and Reconnaissance all tools in one frame</summary>
+
+* Google dorks — like a metal detector that finds sensitive scraps buried in Google’s search results
+* Google exploits (GHDB) — a cookbook of proven search recipes attackers use to uncover exposed secrets
+* Shodan — a search engine that treats the Internet like a city and shows you every unlocked door and window
+* Netcraft — a historical ledger that tells you who built a website, where it’s hosted, and how its ownership moved over time
+* TheHarvester — a digital trawl net that scoops up public emails, hosts, and subdomains from the open web
+* BuzzSumo — a social barometer that shows which headlines and posts make people react and share
+* Nmap — an X-ray machine for networks that reveals which services and ports are alive under the skin
+* Sherlock — a social media bloodhound that sniffs out where a username appears across the web
+* Whois / DomainTools — the domain’s ID card showing who registered it and when
+* IP2Location — a map app that pins an IP to a rough geographic and network address
+* nslookup — a quick phonebook query to ask DNS “what’s the address for this name?”
+* MXToolbox — a Swiss Army knife for checking email and DNS health at a glance
+* Meltigo — (aggregator-style tool) a quick index that gathers scattered public traces of an email/username into one view
+* Recon-ng — a modular assembly line that automates OSINT tasks and produces organized recon outputs
+* DNS Dumpster — a satellite snapshot that maps a domain’s DNS landscape and forgotten subdomains
+* Kloth.net — a simple external DNS lookup window you can use when your local resolver lies to you
+* EmailTrackerPro — a tracker’s motion sensor that logs when an email is opened and from roughly where
+* sgpt — a terminal-based assistant that brings ChatGPT into your shell like a pocket consultant
+
+</details>
