@@ -283,3 +283,63 @@ It’s basically a wrapper around the OpenAI API.
 * sgpt — a terminal-based assistant that brings ChatGPT into your shell like a pocket consultant
 
 </details>
+
+
+# Scanning Networks
+
+<details>
+<summary>Explain Network scanning concepts</summary>
+
+* concepts :~
+  - URG - Urgent
+  - PUSH - push
+  - ACK - Acknownledgment
+  - FIN - finish
+  - RST - reset
+  - SYN - synchronice
+</details>
+
+<details>
+<summary>Scanning Techniques for Host Discovery</summary>
+
+* using Nmap :~
+  - ICMP ping scan
+    - ICMP Echo ping - nmap -sn -PE <target ip>
+      - ICMP Echo ping sweep 
+    - ICMP timestamp ping - nmap -sn -PP <target ip>
+    -  ICMP address mak ping - nmap -sn -PM <target ip>
+  - ARP ping scan - nmap -sn -PR <target ip>
+  - UDP ping scan - nmap -sn -PU <target ip>
+  - TCP ping scan
+    - TCP SYN ping - nmap -sn -PS <target ip>
+    - TCP ACK ping - nmap -sn -PA <target ip>
+  - IP protocal ping scan - nmap -sn -PO <target ip> 
+  - Ping sweep tools
+    - Angry ip Scanner
+    - Advance ip scanner
+</details>
+
+<details>
+<summary>Scanning Techniques for Port and services</summary>
+
+* port scanning techniques using Nmap :~
+  - TCP Scanning
+    - TCP full open scan - nmap -sT -v <target ip>
+    - Stealth TCP scanning methods
+      - Half-open scan - nmap -sS -v <target ip>
+      - Inverse TCP flag Scan - nmap -(sF, sN, sX) -v <target ip>
+        - Xmas scan nmap -sX -v <target ip>
+        - FIN scan - nmap -sF -v <target ip>
+        - NULL scan - nmap -sN -v <target ip>
+      - ACK flag probe scan - nmap -sA -v <target ip>
+        - TTL-based scan - nmap -sA -ttl 100 -v <target ip>
+        - window scan - nmap -sA -sW -v <target ip>
+    - IDLE/IPID header scan - nmap -Pn -p- -sl<zombie><target>  
+  - UDP scanning
+  - SCTP scanning
+    - SCTP INIT scanning - nmap -sY -v <target ip>
+    - SCTP Cookie ECHO scanning - nmap -sZ -v <target ip>
+  - SSDP scanning
+  - IPv6 scanning
+</details>
+
