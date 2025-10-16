@@ -328,7 +328,7 @@ It’s basically a wrapper around the OpenAI API.
     - Stealth TCP scanning methods
       - Half-open scan - nmap -sS -v <target ip>
       - Inverse TCP flag Scan - nmap -(sF, sN, sX) -v <target ip>
-        - Xmas scan nmap -sX -v <target ip>
+        - Xmas scan - nmap -sX -v <target ip>
         - FIN scan - nmap -sF -v <target ip>
         - NULL scan - nmap -sN -v <target ip>
       - ACK flag probe scan - nmap -sA -v <target ip>
@@ -341,5 +341,60 @@ It’s basically a wrapper around the OpenAI API.
     - SCTP Cookie ECHO scanning - nmap -sZ -v <target ip>
   - SSDP scanning
   - IPv6 scanning
+  - service version discovery - nmap -sV <target ip>
+  - tool:
+    - zenmap(you can use zenmap in windows as well as nmap in linux terminal)
 </details>
 
+<details>
+<summary>Scanning techniques for OS Discovery</summary>
+
+* Identify Target system OS :~
+  - Linux = TTL(Time to live)-64
+  - FreeBSD = TTL(Time to live)-64
+  - OpenBSD = TTL(Time to live)-255
+  - windows = TTL(Time to live)-128
+  - Cisco Routers = TTL(Time to live)-255
+  - Solaries = TTL(Time to live)-255
+  - AIX = TTL(Time to live)-255
+  
+  - Command for OS Discovery :~ nmap -O <target ip>
+  - nmap --script smb-os-discovery.nse <target ip>
+</details>
+
+<details>
+<summary>Scanning Beyond IDS/Firewall using evasion Techniques</summary>
+
+* Packet Fragmentation = nmap -f <target ip> 
+* Source Routing
+* Source port manupulation = nmap -g <port no> <target ip>
+* IP Address Decoy
+   - nmap -D RND(random namber of decoys):10 <target>
+   - nmap -D decoy1, decoy2, decoy3,...etc
+* IP Address Spoofing
+  - using Hping3 for ip address spoofing = Hping3 www.certifiedhacker.com -a <target>
+* MAC Address Spoofing = nmap -sT -Pn --spoof-mac <range like 0,1,2....> <target ip>
+* Creating Custom
+* Randomaizing host order and sending Bad checksums
+  - randomized host order = nmap --randomize-hosts <target ip>
+  - sending bad checksums = nmap --badsum <target ip>
+* Proxy Servers 
+* Anonymizers
+* wireshark one filter = ip.src == <target ip> 
+</deatails>
+
+<details>
+<summary>Scan a Target Network Using Metasploit</summary>
+
+* Metasploit :~ 
+  - commands :
+  ```console 
+             sudo su
+             msfconsole
+             nmap -Pn -sS -A -oX test <target ip range>
+             search <module name>
+             use <module name>
+             set RHOSTS <ip range>
+             set THREADS 50 or 10
+  ```
+</details>
