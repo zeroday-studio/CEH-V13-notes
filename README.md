@@ -381,7 +381,7 @@ It’s basically a wrapper around the OpenAI API.
 * Proxy Servers 
 * Anonymizers
 * wireshark one filter = ip.src == <target ip> 
-</deatails>
+</details>
 
 <details>
 <summary>Scan a Target Network Using Metasploit</summary>
