@@ -398,3 +398,30 @@ It’s basically a wrapper around the OpenAI API.
              set THREADS 50 or 10
   ```
 </details>
+
+# Enumeration
+<details>
+<summary>NetBIOS Enumeration</summary>
+
+* Netbios :~ 
+  netbios = network basic input and output system
+</details>
+
+<details>
+<summary>Techniques for SNMP Enumeration and LDAP Enumeration</summary>
+
+* SNMP = Simple Network Managment Protocol
+command : 
+    - snmpwalk -v1 -c public <target ip>
+    - nmap -sU -p 161 --script=snmp processes <target ip>
+* SNMP Enumaretion using SNMPwalk with SGPT :~ 
+  -     
+</details>
+
+<details>
+<summary>Techniques for NTP and NFS Enumaretion</summary>
+
+* NTP = Network Time protocal
+* nFS = Network File System
+
+</details>
