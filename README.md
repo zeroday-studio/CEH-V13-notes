@@ -483,3 +483,31 @@ It’s basically a wrapper around the OpenAI API.
 
  //Additional info:
  * SAMBA = its used in linux/unix operating system and used for converting or help in file sharing and printers from one OS to Another OS like windows OS to Linux OS.
+</details>
+
+<details>
+<summary> DNS Enumeration using Zone Transfer</summary>
+
+* A DNS Zone Transfer is a mechanism used to copy DNS records from one DNS server (usually the master/primary) to another (secondary).
+ - before we go for zone transfer first find out the Authoritative name sever for sending request
+ - commands:
+  ```console
+       dig ns <domain name>
+         dig = Domain Information Groper(this is a command in dns zone transfer in linux os system)
+         NS = Name server
+
+       dig @<server_name> <domain_name> <service>
+       for example: dig @example.com www.certifiedhacker.com axfr
+         @ = the @ symbol is used to specify the DNS server
+         AXFR = A-Authoritative, XFR-transfer  
+
+      //whether its fails go to windows server and perform nslookup in command promt
+      nslookup
+      set querytype=soa
+      <domain_name>
+
+      //whether it fails use this and make primary server into Authoritative server
+      ls -d <primary server name>
+
+  ```
+</details>
