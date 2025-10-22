@@ -519,7 +519,11 @@ It’s basically a wrapper around the OpenAI API.
 * commands: 
    ```console
     nmap -p 25 --script=smtp-enum-users <target_ip>
+   ``` 
+   ```console
     nmap -p 25 --script=smtp-open-relay <target_ip>
+   ``` 
+   ```console
     nmap -p 25 --script=smtp-commands <target_ip>
    ```  
 
