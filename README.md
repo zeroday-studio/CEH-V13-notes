@@ -517,7 +517,7 @@ It’s basically a wrapper around the OpenAI API.
 * SMTP = Simple Mail Transport Protocal 
 * Port = 25
 * commands: 
-   ```bash
+   ```console
     nmap -p 25 --script=smtp-enum-users <target_ip>
     nmap -p 25 --script=smtp-open-relay <target_ip>
     nmap -p 25 --script=smtp-commands <target_ip>
