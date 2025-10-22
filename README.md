@@ -404,24 +404,70 @@ It’s basically a wrapper around the OpenAI API.
 <summary>NetBIOS Enumeration</summary>
 
 * Netbios :~ 
-  netbios = network basic input and output system
+    netbios = network basic input and output system(port 137,138,139)
+* NetBIOS Enumeration using Windows Command-Line Utilities :~
+  - Commands:
+    - net(this is for netbios help)
+    - nbtstat -a <target system ip>
+    - nbtstat -c
 </details>
 
 <details>
 <summary>Techniques for SNMP Enumeration and LDAP Enumeration</summary>
 
-* SNMP = Simple Network Managment Protocol
-command : 
+* SNMP = Simple Network Managment Protocol(port 161,162)
+  - command : 
     - snmpwalk -v1 -c public <target ip>
     - nmap -sU -p 161 --script=snmp processes <target ip>
+
+* SNMP Enumeration using SnmpWalk :~
+ ```console 
+      nmap -sU -p 161 --script=snmp-sysdescr <target ip>  
+      nmap -sU -p 161 --script=snmp-processes <target ip>
+      nmap -sU -p 161 --script=snmp-win32-software <target ip>
+      nmap -sU -p 161 --script=snmp-interface <target ip> 
+ ``` 
+
 * SNMP Enumaretion using SNMPwalk with SGPT :~ 
   -     
+* LDAP = Lightweight Directory Access Protocal :~
+  - Using Active Directory Explorer (AD Explorer):
+    - Tool: Active Directory Explorer
 </details>
 
 <details>
 <summary>Techniques for NTP and NFS Enumaretion</summary>
 
 * NTP = Network Time protocal
-* nFS = Network File System
+* NFS = Network File System
+* NFS Enumeration using RPCScan and SuperEnum :~
+  - NFS is for server to server file trasfor
+  - superenum commands:
+  ```console
+      sudo su(make your user into superuser)
+      cd superenum(you should make your current directory to superenum directory)
+      nmap -p 2049 <target ip>
+      echo "10.10.1.19">><txt file name with .txt>(we should create one .txt file with target ip address)
+      ./superenum(this is for run the superenum)
+      filename.txt(after run the superenum we have to type the doc name or file name)
+      cd ..(we complete the superenum and exit from superenum directory)
+  ```
+  - RCP Scan Commands:
+  ```console
+      cd RPCscan(we sholud make your current directory to RPCscan directory)
+      python3 rpc-scan.py <target ip> --rpc
+  ```    
+
 
 </details>
+
+<details>
+<summary>Demonstrate IPSec, VoIP, RPC, LInux/Unix, SMB</summary>
+
+ * IPSec = Internet Protocal Security
+ * VoIP = Voice Over Internet Protocal 
+ * RPC = Remote Proedure Call 
+ * SMB = Server Message Block(port TCP 445)
+
+ //Additional info:
+ * SAMBA = its used in linux/unix operating system and used for converting or help in file sharing and printers from one OS to Another OS like windows OS to Linux OS.
