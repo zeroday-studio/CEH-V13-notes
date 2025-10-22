@@ -444,8 +444,10 @@ It’s basically a wrapper around the OpenAI API.
   - NFS is for server to server file trasfor
   - superenum commands:
   ```console
-      sudo su(make your user into superuser)
-      cd superenum(you should make your current directory to superenum directory)
+      //make your user into superuser
+      sudo su
+      //you should make your current directory to superenum directory
+      cd superenum
       nmap -p 2049 <target ip>
       echo "10.10.1.19">><txt file name with .txt>(we should create one .txt file with target ip address)
       ./superenum(this is for run the superenum)
