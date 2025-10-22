@@ -446,13 +446,23 @@ It’s basically a wrapper around the OpenAI API.
   ```console
       //make your user into superuser
       sudo su
+
       //you should make your current directory to superenum directory
       cd superenum
+
       nmap -p 2049 <target ip>
-      echo "10.10.1.19">><txt file name with .txt>(we should create one .txt file with target ip address)
-      ./superenum(this is for run the superenum)
-      filename.txt(after run the superenum we have to type the doc name or file name)
-      cd ..(we complete the superenum and exit from superenum directory)
+
+      //we should create one .txt file with target ip address
+      echo "10.10.1.19">><txt file name with .txt>
+
+      //this is for run the superenum
+      ./superenum
+
+      //after run the superenum we have to type the doc name or file name
+      filename.txt
+      
+      //we complete the superenum and exit from superenum directory
+      cd ..
   ```
   - RCP Scan Commands:
   ```console
