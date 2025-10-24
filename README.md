@@ -409,7 +409,9 @@ It’s basically a wrapper around the OpenAI API.
   - Commands:
     - net(this is for netbios help)
     - nbtstat -a <target system ip>
+      - -a = displays the NetBIOS name table of a remote computer
     - nbtstat -c
+      - -c = lists the contents of the NetBIOS name cache of the remote computer
 </details>
 
 <details>
@@ -514,7 +516,7 @@ It’s basically a wrapper around the OpenAI API.
 <details>
 <summary>SMTP Enumeration using Nmap</summary>
 
-* SMTP = Simple Mail Transport Protocal 
+* SMTP = Simple Mail Transfer Protocal 
 * Port = 25
 * commands: 
    ```console
@@ -526,5 +528,13 @@ It’s basically a wrapper around the OpenAI API.
    ```console
     nmap -p 25 --script=smtp-commands <target_ip>
    ```  
-
 </details>
+
+<details>
+<summary>Enumerate Information using Global Network Inventory and shellGPT</summary>
+
+* Enumerate Information using Global Network Inventory :~
+  - It’s a complete list (database) of all devices, systems, IPs, and services that exist on an organization’s entire network — across all branches, cloud, and local servers
+* Tool: Global Network Inventory 
+
+* 2cb2906a64c34654b0f0cb2271a6712d
