@@ -536,8 +536,12 @@ It’s basically a wrapper around the OpenAI API.
 * Enumerate Information using Global Network Inventory :~
   - It’s a complete list (database) of all devices, systems, IPs, and services that exist on an organization’s entire network — across all branches, cloud, and local servers
 * Tool: Global Network Inventory 
-
-* 2cb2906a64c34654b0f0cb2271a6712d
+```console
+  2cb2906a64c34654b0f0cb2271a6712d
+```
+```console
+  https://github.com/zeroday-studio/CEH-V13-notes.git
+```  
 * Enumeration Using SGPT :~
   - sgpt --shell "Perform NetBIOS enumeration on target IP 10.10.1.11"
   - sgpt --shell "Get NetBIOS info for IP 10.10.1.11 and display the associated names" 
@@ -556,41 +560,98 @@ It’s basically a wrapper around the OpenAI API.
 
 # Vulnerability Analysis
 <details>
-<summary>Vulnerability Analysis</summary>
+<summary>Summarize Vulnerability Assessment Concepts</summary>
 
-* Summarize Vulnerability Assessment Concepts :~
-  - Classification of vulnerability:
-    - Mis/Weak Configuration
-    - Application Flaws
-    - poor path Managment
-    - Design Flaws
-    - Third-Party risks
+* Classification of vulnerability :~
+  - Mis/Weak Configuration
+  - Application Flaws
+  - poor path Managment
+  - Design Flaws
+  - Third-Party risks
 
-  - Vulnerability Scoring Systems and Database:
-    - CVSS = Common Vulnerability Scoring System
-      - none - 0.0
-      - Low - 0.1-3.9
-      - Medium - 4.0-6.9
-      - High - 7.0-8.9
-      - Critical - 9.0-10.0
-    - CVE = Common Vulnerability and Exposure
-    - NVD = National Vulnerability Database
-      - this is USA based Repository
-    - CWE = Common Weakness Enumeration
+* Vulnerability Scoring Systems and Database :~
+  - CVSS = Common Vulnerability Scoring System
+    - none - 0.0
+    - Low - 0.1-3.9
+    - Medium - 4.0-6.9
+    - High - 7.0-8.9
+    - Critical - 9.0-10.0
+  - CVE = Common Vulnerability and Exposure
+  - NVD = National Vulnerability Database
+    - this is USA based Repository
+  - CWE = Common Weakness Enumeration
 
-  - Vulnerability Management Lifecycle:
-    - Pre-Assessment phase
-      1. Identify Assets: we have to list which is very important in our network or our organization
-      2. Create a baseline: taking a snapshot of your systems current health before you start fixing anythig
-    - Vulnerability Assessment phase
-      3. Vulnerability Scan: we have to scan our network or organization's vulnerability before we going to fix something
-      4. Vulnerability Analysis: we have to analys the vulnerability what we scan
-    - post-assessment phase
-      5. Risk Assessment: Process of analysing and Prioritizing the vulnerabilities you discoverd and make sure which vulnerability containing more risk and we will go through that first
-      6. Remidiation: this step is for fixing, patching or removing the bugs in vulnerability
-      7. verification: we have to verify the process what we done now 
-      8. Monitoring: we have to monitor all steps and all the security option once we done all the steps
+* Vulnerability Management Lifecycle :~
+  - Pre-Assessment phase
+    - Identify Assets: we have to list which is very important in our network or our organization
+    - Create a baseline: taking a snapshot of your systems current health before you start fixing anythig
+  - Vulnerability Assessment phase
+    - Vulnerability Scan: we have to scan our network or organization's vulnerability before we going to fix something
+    - Vulnerability Analysis: we have to analys the vulnerability what we scan
+  - post-assessment phase
+    - Risk Assessment: Process of analysing and Prioritizing the vulnerabilities you discoverd and make sure which vulnerability containing more risk and we will go through that first
+    - Remidiation: this step is for fixing, patching or removing the bugs in vulnerability
+    - verification: we have to verify the process what we done now 
+    - Monitoring: we have to monitor all steps and all the security option once we done all the steps
 
-  - Types of Vulnerability Scanning:
-    -                
+* Types of Vulnerability Scanning :~
+  - External Scanning 
+  - Internal Scanning 
+  - Host-Based Scanning 
+  - Network-Based Scanning
+  - Application Scanning 
+  - Credential Scanning 
+  - Non-Credential Scanning
+  - Manual Scanning
+  - Automated Scanning    
+
+* Analyze Vulnerability Assassment Reports :~
+  - Executive Summary
+  - Assessment overview
+  - findings
+  - Risk Assessment
+  - Recommendations
+  - Appendices and Supporting information
+  - Conclusion
+  - follow-up Actions and Timeline
+  - Glossary of terms
 </details>
+
+<details>
+<summary>Use Vulnerability Assessment Tools</summary>
+
+* Tools :~
+  - Nessus
+  - Greenbone Security Assistant(OpenVAS)
+  - Nikto(Coomand-line tool)
+  - Equixly(AI-Powered Vulnerability Assessment Tool)
+  - Smart Scanner(AI-Powered Vulnerability Assessment Tool)
+  - skipfish(command-line tool)
+</details>
+
+<details>
+<summary>Vulnerability Analysis LABS</summary>
+
+* Vulnerability Research in Common Weakness Enumeration (CWE) :~
+  - website : 
+  ```console
+      https://cwe.mitre.org
+  ```
+* Vulnerability Analysis Using OpenVAS :~
+  - Command: 
+    //run this docker command to open the openvas in web browser
+  ```console
+    docker run -d -p 443:443 --name openvas mikesplain/openvas
+  ```
+  - website name : Greenbone security assistant
+    //after run the docker command in linux os terminal use this ip address on web browser and after you will get openvas
+  ```console
+    IP Address: https://127.0.0.1
+  ```
+
+* Vulnerability Analysis Using ShellGPT :~
+  - sgpt --chat nikto --shell "launch nikto to execute a scan against the url www.certifiedhacker.com to identify potential vulnerabilities."
+  - sgpt --chat vuln --shell "perform a vulnerability scan on target url http://www.moviescope.com with nmap"
+  - sgpt --chat vuln --shell "perform a vulnerability scan on target url http://testphp.vulnweb.com with skipfish"
+</details>     
+
