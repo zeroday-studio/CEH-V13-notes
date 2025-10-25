@@ -651,6 +651,7 @@ It’s basically a wrapper around the OpenAI API.
 
 * Vulnerability Analysis Using ShellGPT :~
   - sgpt --chat nikto --shell "launch nikto to execute a scan against the url www.certifiedhacker.com to identify potential vulnerabilities."
+  - sgpt --chat nikto --shell "Scan the URL https://www.certifiedhacker.com to identify potential vulnerabilities with nikto"
   - sgpt --chat vuln --shell "perform a vulnerability scan on target url http://www.moviescope.com with nmap"
   - sgpt --chat vuln --shell "perform a vulnerability scan on target url http://testphp.vulnweb.com with skipfish"
 </details>     
