@@ -538,3 +538,59 @@ It’s basically a wrapper around the OpenAI API.
 * Tool: Global Network Inventory 
 
 * 2cb2906a64c34654b0f0cb2271a6712d
+* Enumeration Using SGPT :~
+  - sgpt --shell "Perform NetBIOS enumeration on target IP 10.10.1.11"
+  - sgpt --shell "Get NetBIOS info for IP 10.10.1.11 and display the associated names" 
+  - sgpt --shell "Enumerate NetBIOS on target IP 10.10.1.22 with nmap"
+  - sgpt --chat enum --shell "Perform SNMP enumeration on target IP 10.10.1.22 using SnmpWalk and display the result here"
+  - sgpt --chat enum --shell "Perform SNMP enumeration on target IP 10.10.1.22 using nmap and display the result here"
+  - sgpt --chat enum --shell "Perform SNMP processes on target IP 10.10.1.22 using nmap and display the result here"
+  - sgpt --chat enum --shell "Perform SMTP enumeration on target IP 10.10.1.19."
+  - sgpt --chat enum --shell "Use Nmap to perform DNS Enumeration on target domain www.certifiedhacker.com"
+  - sgpt --chat enum --shell "Use dig command to perform DNS cache snooping on target domain www.certifiedhacker.com using recursive method. Use DNS server IP as 162.241.216.11"
+  - sgpt --chat enum --shell "Use dig command to perform DNS cache snooping on the target domain www.certifiedhacker.com using non-recursive method. Use DNS server IP as 162.241.216.11"
+  - sgpt --shell "Perform IPsec enumeration on target IP 10.10.1.22 with Nmap
+  - sgpt --shell "Scan the target IP 10.10.1.22 for the port using SMB with Nmap"
+  - sgpt --chat enum --shell "Develop and execute a script which will automate various network enumeration tasks on target IP range 10.10.1.0/24"
+</details>
+
+# Vulnerability Analysis
+<details>
+<summary>Vulnerability Analysis</summary>
+
+* Summarize Vulnerability Assessment Concepts :~
+  - Classification of vulnerability:
+    - Mis/Weak Configuration
+    - Application Flaws
+    - poor path Managment
+    - Design Flaws
+    - Third-Party risks
+
+  - Vulnerability Scoring Systems and Database:
+    - CVSS = Common Vulnerability Scoring System
+      - none - 0.0
+      - Low - 0.1-3.9
+      - Medium - 4.0-6.9
+      - High - 7.0-8.9
+      - Critical - 9.0-10.0
+    - CVE = Common Vulnerability and Exposure
+    - NVD = National Vulnerability Database
+      - this is USA based Repository
+    - CWE = Common Weakness Enumeration
+
+  - Vulnerability Management Lifecycle:
+    - Pre-Assessment phase
+      1. Identify Assets: we have to list which is very important in our network or our organization
+      2. Create a baseline: taking a snapshot of your systems current health before you start fixing anythig
+    - Vulnerability Assessment phase
+      3. Vulnerability Scan: we have to scan our network or organization's vulnerability before we going to fix something
+      4. Vulnerability Analysis: we have to analys the vulnerability what we scan
+    - post-assessment phase
+      5. Risk Assessment: Process of analysing and Prioritizing the vulnerabilities you discoverd and make sure which vulnerability containing more risk and we will go through that first
+      6. Remidiation: this step is for fixing, patching or removing the bugs in vulnerability
+      7. verification: we have to verify the process what we done now 
+      8. Monitoring: we have to monitor all steps and all the security option once we done all the steps
+
+  - Types of Vulnerability Scanning:
+    -                
+</details>
