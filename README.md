@@ -627,6 +627,21 @@ It’s basically a wrapper around the OpenAI API.
   - Equixly(AI-Powered Vulnerability Assessment Tool)
   - Smart Scanner(AI-Powered Vulnerability Assessment Tool)
   - skipfish(command-line tool)
+  - Qualys
+* Additional tools :~  
+  -  InsightVM (https://www.rapid7.com)
+  - Acunetix Web Vulnerability Scanner (https://www.acunetix.com)
+  - Nexpose (https://www.rapid7.com)
+  - Sniper (https://sn1persecurity.com)
+  - Tripwire IP360 (https://www.tripwire.com)
+  - SAINT Security Suite (https://www.carson-saint.com) 
+  - BeSECURE (https://www.beyondsecurity.com) 
+  - Core Impact Pro (https://www.coresecurity.com) 
+  - Intruder (https://www.intruder.io) 
+  - ManageEngine Vulnerability Manager Plus (https://www.manageengine.com) 
+  - Astra Pentest (https://www.getastra.com) 
+  - Skybox (https://www.skyboxsecurity.com) 
+  - MaxPatrol TM (https://www.ptsecurity.com)
 </details>
 
 <details>
@@ -648,11 +663,46 @@ It’s basically a wrapper around the OpenAI API.
   ```console
     IP Address: https://127.0.0.1
   ```
-
+  
 * Vulnerability Analysis Using ShellGPT :~
+```console
   - sgpt --chat nikto --shell "launch nikto to execute a scan against the url www.certifiedhacker.com to identify potential vulnerabilities."
   - sgpt --chat nikto --shell "Scan the URL https://www.certifiedhacker.com to identify potential vulnerabilities with nikto"
   - sgpt --chat vuln --shell "perform a vulnerability scan on target url http://www.moviescope.com with nmap"
   - sgpt --chat vuln --shell "perform a vulnerability scan on target url http://testphp.vulnweb.com with skipfish"
+```  
 </details>     
 
+# System Hacking
+<details>
+<summary>Gain Access to the System</summary>
+
+* Perform Active Online Attack to Crack the System's Password using Responder :~
+  - Responder listens on a network and tricks Windows systems into sending their login hashes, which can then be analyzed or cracked
+  - we are using Responder tool for crack systems password
+  - command:
+    - open the terminal(linux)
+    - sudo responder -I eth0(-I = Interface, eth0 = interface name)
+    - go to the windows and login and open any admin login page or and login page
+    - come back to the linux and copy jason hash in responder
+    - pluma hash.txt(pluma is a text editor in linux)
+    - john hash.txt (john is the tool using for crack the password its full name john ripper)
+    - john the ripper will give the password in plan text using user hash
+
+* Gain Access to a Remote System using Reverse Shell Generator :~
+  - we using "shared directory (SMB)" for file transfor from host system to target system
+  - we have to open reverse shell generator using Docker commands and mapping ports of host system port and docker container port
+  - command:
+ ```console
+       docker run -d -p 80:80 reverse_shell_generator
+ ``` 
+  - lsof -i :80 (shows which process is using port 80 on your system)
+    - lsof = list open file
+    - -i = internet connection
+    - :80 = Filters the result to port 80 only
+  - http://localhost(to open the reverse shell generator GUI)
+  - step one is to create payload and listener using MSFVenom in reverse shell generator GUI and listner is msfconsole
+  - step two is t create payload and listener using Hoaxshell for poweshell in reverse shell generator GUI (in target machine we have run this code in powershell terminal) 
+
+* Perform Buffer Overflow Attack to Gain Access to a Remote System :~
+  -    
