@@ -696,13 +696,13 @@ It’s basically a wrapper around the OpenAI API.
  ```console
        docker run -d -p 80:80 reverse_shell_generator
  ``` 
-  - lsof -i :80 (shows which process is using port 80 on your system)
-    - lsof = list open file
-    - -i = internet connection
-    - :80 = Filters the result to port 80 only
-  - http://localhost(to open the reverse shell generator GUI)
-  - step one is to create payload and listener using MSFVenom in reverse shell generator GUI and listner is msfconsole
-  - step two is t create payload and listener using Hoaxshell for poweshell in reverse shell generator GUI (in target machine we have run this code in powershell terminal) 
+   - lsof -i :80 (shows which process is using port 80 on your system)
+      - lsof = list open file
+      - -i = internet connection
+      - :80 = Filters the result to port 80 only
+   - http://localhost(to open the reverse shell generator GUI)
+   - step one is to create payload and listener using MSFVenom in reverse shell generator GUI and listner is msfconsole
+   - step two is t create payload and listener using Hoaxshell for poweshell in reverse shell generator GUI (in target machine we have run this code in powershell terminal) 
 
 * Perform Buffer Overflow Attack to Gain Access to a Remote System :~
   - Tools we are using:
