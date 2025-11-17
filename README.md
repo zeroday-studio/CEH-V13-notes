@@ -720,7 +720,7 @@ It’s basically a wrapper around the OpenAI API.
 
   - First step is spiking step using spiking templets: 
     - pluma stats.spk
-     //we are inserting these three line code into stats.spk
+    // we are inserting these three line code into stats.spk
     ```console
         s_readline();
         s_string("STATS ");
@@ -840,7 +840,7 @@ It’s basically a wrapper around the OpenAI API.
    - chmod +x shellcode.py (in first terminal)
    - ./shellcode.py
    - in listening port terminal shell access to the target vulnerable server has been established
-   
+
 
 
 
