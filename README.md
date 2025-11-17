@@ -693,10 +693,8 @@ It’s basically a wrapper around the OpenAI API.
   - we using "shared directory (SMB)" for file transfor from host system to target system
   - we have to open reverse shell generator using Docker commands and mapping ports of host system port and docker container port
   - command:
- ```console
-       docker run -d -p 80:80 reverse_shell_generator
- ``` 
-   - lsof -i :80 (shows which process is using port 80 on your system)
+      - docker run -d -p 80:80 reverse_shell_generator
+  - lsof -i :80 (shows which process is using port 80 on your system)
       - lsof = list open file
       - -i = internet connection
       - :80 = Filters the result to port 80 only
