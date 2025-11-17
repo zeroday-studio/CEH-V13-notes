@@ -720,8 +720,8 @@ It’s basically a wrapper around the OpenAI API.
 
   - First step is spiking step using spiking templets: 
     - pluma stats.spk
-    ///we are inserting these three line code into stats.spk
     ```console
+      //we are inserting these three line code into stats.spk
         s_readline();
         s_string("STATS ");
         s_string_variable("0");
@@ -732,11 +732,11 @@ It’s basically a wrapper around the OpenAI API.
       - generic_send_tcp = its a spike templet or tool used to connect the tcp server
       - first 0 = starting position 
       - second 0 = delay(there is no delay between packets)
-     //after the stats spiking exicution go to windows and check the immune debugger and vulnserver it was vulnerable or not wheather its vuln the immune debugger is pause it is not vuln means running
+      - after the stats spiking exicution go to windows and check the immune debugger and vulnserver it was vulnerable or not wheather its vuln the immune debugger is pause it is not vuln means running
     
     - pluma trun.spk
-     //we are inserting these three line code into trun.spk
     ```console
+      //we are inserting these three line code into trun.spk
         s_readline();
         s_string("TRUN ");
         s_string_variable("0"); 
@@ -744,10 +744,10 @@ It’s basically a wrapper around the OpenAI API.
     ```console
         generic_send_tcp <target_ip> <target_port> <trun.spk_file> 0 0
     ``` 
-      //after the stats spiking exicution go to windows and check the immune debugger and vulnserver it was vulnerable or not wheather its vuln the immunity debugger is pause it is not vuln means running
+      - after the stats spiking exicution go to windows and check the immune debugger and vulnserver it was vulnerable or not wheather its vuln the immunity debugger is pause it is not vuln means running
 
   - Second step is fuzzing using fuzz.py(using python script):
-    //using shared directory we will copy script folder from windows to our system
+    - using shared directory we will copy script folder from windows to our system
     - go to the network option in our linux
     ```console
         smb://10.10.1.11
@@ -762,7 +762,7 @@ It’s basically a wrapper around the OpenAI API.
     
   - Third step is Finding Offset using findoff.py and creating pattern for finding offset(using python script):
     - we get offset here = offset means The point where EIP gets overwritten  
-   //run as administrator for vuln server and immunity debugger
+    - run as administrator for vuln server and immunity debugger
   ```console
    //before finding offset you have create a pattern
       /usr/share/metasploit-framework/tools/exploit/pattern_create.rb -l 10400
@@ -784,7 +784,7 @@ It’s basically a wrapper around the OpenAI API.
 
   - Fourth step is Overwrite EIP using overwrite.py:
     - using this method we make sure over EIP offset is correct or not
-   //run as administrator for vuln server and immunity debugger
+    - run as administrator for vuln server and immunity debugger
   ```console 
       chmod +x overwrite.py 
       ./overwrite.py
@@ -795,14 +795,14 @@ It’s basically a wrapper around the OpenAI API.
 
   - Fifth step is identify bad characters(because they may cause issues in the shellcode):
     - bad char might be stop our payloads also     
-   //run as administrator for vuln server and immunity debugger 
+    - run as administrator for vuln server and immunity debugger 
     - chmod -x badchars.py
     - ./badchars.py
     - In Immunity Debugger, click on the ESP register value -->right click on ESP and Follow in Dump option
     - ofter this there is not bad charectors
   
   - Sixth step is mona method:
-   //run as administrator for vuln server and immunity debugger 
+    - run as administrator for vuln server and immunity debugger 
     - mona helps to identify the right module of the vulnerable server that is lacking memory protection
     - copy mona.py and paste it to C:\Program Files (x86)\Immunity Inc\Immunity Debugger\PyCommands
     - in bottom of the immunity debugger you will get text box over their 
@@ -810,7 +810,7 @@ It’s basically a wrapper around the OpenAI API.
     - you can see which module have no memory protection and we will exploit that module inject shellcode and take full control of the EIP register
 
   - Seventh step is converted using converter.py(we get Hex code):
-   //run as administrator for vuln server and immunity debugger
+    - run as administrator for vuln server and immunity debugger
   ```console  
       sudo su
       cd 
