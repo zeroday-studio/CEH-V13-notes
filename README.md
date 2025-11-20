@@ -1008,3 +1008,32 @@ It’s basically a wrapper around the OpenAI API.
   - getuid 
   - attacker can maintain persistence on the target machine using Run Registry keys                               
 </details>
+
+<details>
+<summary>Clear Logs to Hide the Evidence of Compromise</summary>
+
+* Clear Windows Machine Logs using Various Utilities :~
+  - There are various Windows utilities that can be used to clear system logs such as 
+    - Clear_Event_Viewer_Logs.bat
+    - wevtutil
+    - Cipher
+  - Clear_Event_Viewer_Logs.bat:  
+    - go to the target machine and run Clear_Event_Viewer_Logs.bat(Run as administrator)
+    -  Command Prompt window appears, and the utility starts clearing the event logs
+    - Clear_Event_Viewer_Logs.bat is a utility that can be used to wipe out the logs of the target system
+
+  - wevtutil:
+    - Command Prompt(Run as administrator)
+    - wevtutil el = command to display a list of event logs
+    - wevtutil cl System = command for clear all log in system
+    - wevtutil is a command-line utility used to retrieve information about event logs and publishers
+
+  - cipher:
+    - Command Prompt
+    - cipher /w:[Drive or Folder or File Location]
+    - The Cipher.exe utility starts overwriting the deleted files, first, with all zeroes (0x00); second, with all 255s (0xFF)
+    - Cipher.exe is an in-built Windows command-line tool that can be used to securely delete a chunk of data by overwriting it to prevent its possible recovery
+
+* Clear Linux Machine Logs using the BASH Shell :~
+  -       
+</details>
