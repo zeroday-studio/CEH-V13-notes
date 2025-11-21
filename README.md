@@ -518,7 +518,10 @@ It’s basically a wrapper around the OpenAI API.
 
 * SMTP = Simple Mail Transfer Protocal 
 * Port = 25
-* commands: 
+* commands:
+   ```console
+    2cb2906a64c34654b0f0cb2271a6712d
+   ```
    ```console
     nmap -p 25 --script=smtp-enum-users <target_ip>
    ``` 
@@ -536,9 +539,6 @@ It’s basically a wrapper around the OpenAI API.
 * Enumerate Information using Global Network Inventory :~
   - It’s a complete list (database) of all devices, systems, IPs, and services that exist on an organization’s entire network — across all branches, cloud, and local servers
 * Tool: Global Network Inventory 
-```console
-  2cb2906a64c34654b0f0cb2271a6712d
-```
 ```console
   https://github.com/zeroday-studio/CEH-V13-notes.git
 ```  
@@ -1202,4 +1202,11 @@ It’s basically a wrapper around the OpenAI API.
        - /root/ADtools/rockyou.txt: is the wordlist file used for the attack  
   - we get the password advanced!
   - As DC-Admin has high privileges on the domain, we can use this password for further attacks                     
+</details>
+
+<details>
+<summary>Perform System Hacking using AI</summary>
+
+* Perform System Hacking using ShellGPT :~
+  - 
 </details>
