@@ -1217,4 +1217,28 @@ It’s basically a wrapper around the OpenAI API.
     ```console
         sgpt --shell "Use msfconsole to start a listener with lhost=10.10.1.13 and lport=444"
     ```    
+  - Msfconsole successfully initializes the listener
+  - As we are not executing payload in the victim's machine, you will not be able to establish any session
+  - exit command to exit msfconsole
+  - to perform SSH-bruteforce attack on the target machine:
+    ```console
+        sgpt --shell "Use Hydra to perform SSH-bruteforce on IP address=10.10.1.9 using username.txt and password.txt files available at location /home/attacker/Wordlist"
+    ```
+  - Using the provided wordlist files, Hydra cracks SSH username and password of the target machine
+  - demonstrate image stegnography. (here, cover.jpg file is located at /home/attacker):
+    ```console
+        sgpt --shell "Perform stegnography using steghide to hide text 'My swiss account number is 232343435211113' in cover.jpg image file with password as '1234'"
+    ```
+  - The given text is embedded to cover.jpg file
+  - navigate to /home/attacker and double-click cover.jpg file to view the image file
+  - Navigate back to the Terminal window
+  - we will extract hidden text from the cover.jpg file by executing:
+    ```console
+        sgpt --shell "Use steghide to extract hidden text in cover.jpg"
+    ```
+  - Enter passphrase prompt, type 1234 and press Enter
+  - next prompt, type y and press Enter
+  - extracted data is stored in the secret.txt file
+  - run pluma secret.txt command to view the extracted data file
+  -             
 </details>
