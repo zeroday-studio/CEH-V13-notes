@@ -1239,6 +1239,150 @@ It’s basically a wrapper around the OpenAI API.
   - Enter passphrase prompt, type 1234 and press Enter
   - next prompt, type y and press Enter
   - extracted data is stored in the secret.txt file
-  - run pluma secret.txt command to view the extracted data file
-  -             
+  - run pluma secret.txt command to view the extracted data file          
+</details>
+
+# Malware Threats
+<details>
+<summary>Gain Access to the Target System using Trojans</summary>
+
+* Gain Control over a Victim Machine using the njRAT RAT Trojan :~
+  - we are using njRAT(njRAT v0.8d.exe) for exploit the target mechine using trojan
+  - njRAT GUI appears; click the [Build] button located in the lower-left corner of the GUI to configure the exploit details
+  - Host field, check the options Randomize Stub, USB Spread Nj8d, Protect Prosess [BSOD], leave the other settings to default, and click Build
+  - we share that .exe file to victim mechine and execute that file and we can get that access 
+</details>
+
+<details>
+<summary>Infect the Target System using a Virus</summary>
+
+* Create a Virus using the JPS Virus Maker Tool and Infect the Target System :~
+  - Tool : JPS virus maker(ethical hacker and pemetration tester uses ths tool)
+  - we creating the virus file in attaker system and send that system to victim mechine 
+  - when the victim execute that file victim is attacked by the virus
+  - it will desable all the features what attacker select
+  - attacker change the system password also
+</details>
+
+<details>
+<summary>Perform Static Malware Analysis</summary>
+
+* Perform Malware Scanning using Hybrid Analysis :~
+  - tool = hybrid analysis
+    ```console
+         https://www.hybrid-analysis.com
+    ```  
+  - we are using the hybrid analysis for scanning the malicious file 
+  - open the hyberid analysis and drag and drop the malicious file
+  - ofter analysis it will give all the report about malicious file
+  - other local and online malware scanning tools:
+    - Any.Run:
+      ```console
+           https://app.any.run
+      ```
+    - Valkyrie Sandbox:
+      ```console
+           https://valkyrie.comodo.com 
+      ```
+    - JOESandbox Cloud:
+      ```console
+           https://www.joesandbox.com  
+      ```
+    - Jotti:
+      ```console
+           https://virusscan.jotti.org 
+      ```  
+
+* Analyze ELF Executable File using Detect It Easy (DIE) :~
+  - ELF = Executable and linkable formate
+  - DIE = Detect It Easy(its a tool)
+  - we are using DIE tool to know about malware and its structure and want to know more about this
+  - to identify packing/obfuscation methods
+  - DIE is give all the information about malware
+  - open the DIE tool and insert the file or text file and it will give all info about the malware
+  - use other packaging/obfuscation tools:
+    - Macro_Pack:
+      ```console
+           https://github.com
+      ```
+    - UPX:
+      ```console
+           https://upx.github.io 
+      ```
+    - ASPack:
+      ```console
+           http://www.aspack.com  
+      ```
+    - JVMprotect:
+      ```console
+           https://vmpsoft.com 
+      ```
+
+* Perform Malware Disassembly using IDA and OllyDbg :~
+  - tools:
+    - iDA = interactive disassembler
+    - OllyDbg = its a debugger
+    - we are using these two tools for perform malware disassmbly using IDA and ollydbg to reveal the hidden instructions and behaviours of malware understand how it works internally and creste accurate detection and defense stratargies
+    - we open the IDA tool for deasseble the malicious file into human readable formate
+    - we will check flowchat is inside the grap and we will see the function call and we will see the call flow(WinGraph32 Call flow)
+    
+    - we will open the ollydbg and insert the file and cpu main thread page appears 
+    - check log
+    - check executable module
+    - check memory cap
+    - check thread 
+</details>
+
+<details>
+<summary>Perform Dynamic Malware Analysis</summary>
+
+* Perform Port Monitoring using TCPView and CurrPorts :~
+  - tools:
+    - TCPView = this shows all TCP ports process in our system 
+    - currports = this shows all ports process in our system
+  - open TCPview it will show you all the process in port under tcp
+  - if you dont want any process you can kill the process
+
+  - open currports and it will show all the port rummimg im the system it you want any port you can kill that process 
+  - one thing is once you kill any process attacker never connect back to that system  
+  - other port monitoring tools:
+    - TCP Port/Telnet Monitoring:
+      ```console
+           https://www.dotcom-monitor.com
+      ```
+    - PRTG Network Monitor:
+      ```console
+           https://www.paessler.com
+      ```
+    - SolarWinds Open Port Scanner:
+      ```console
+           https://www.solarwinds.com  
+      ```
+
+* Perform Process Monitoring using Process Monitor :~
+  - tool:
+    - processmonitor = show all the processes running in your system
+  - open processmonitor and it show all the processes running in your system 
+  - we can get all the details about any process
+  - other process monitoring tools:
+    - Process Explorer:
+      ```console
+           https://docs.microsoft.com
+      ```
+    - OpManager:
+      ```console
+           https://www.manageengine.com
+      ```
+    - Monit:
+      ```console
+           https://mmonit.com  
+      ``` 
+    - ESET SysInspector:
+      ```console
+           https://www.eset.com  
+      ```    
+    - System Explorer:
+      ```console
+           https://systemexplorer.net 
+      ```                        
 </details>
