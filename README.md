@@ -1386,3 +1386,127 @@ It’s basically a wrapper around the OpenAI API.
            https://systemexplorer.net 
       ```                        
 </details>
+
+# Sniffing
+<details>
+<summary>Perform Active Sniffing</summary>
+
+* Perform MAC Flooding using macof :~
+  - launch Parrot Security machine
+  - open wireshark and select the interface(eth0)
+  - open terminal and sudo su and cd for root directory
+  - using macof comand:
+    ```console
+         macof -i eth0 -n 10
+         //if you are doing mac flooding for one targeted system also use this 
+         macof -i eth0 -d <target ip>
+    ```
+      - -i = interface
+      - -n = number of packets
+      - -d = destination ip
+  - This command will start flooding the CAM table with random MAC addresses
+  - Wireshark window and observe the IPv4 packets from random IP addresses
+  - captured IPv4 packet and expand the Ethernet II node in the packet details section
+  - Macof sends the packets with random MAC and IP addresses to all active machines in the local network
+  - close all the tabs
+
+* Perform a DHCP Starvation Attack using Yersinia :~
+  - in Parrot Security machine, launch Wireshark and start packet capturing on available ethernet or interface
+  - Open a Terminal window and execute sudo su to run the programs as a root user and cd for root directory
+  - Run yersinia -I to open Yersinia
+    - -I = Starts an interactive session
+  - command:
+    - yersinia -I 
+    - h = help for command
+    - F2 = select DHCP mod
+    - y = exit
+    - x = list all the attacks available
+  - select the option which you want i will press option 1
+  - Yersinia starts sending DHCP packets to the network interface
+  - press quit for q
+  - switch to the Wireshark window and observe the huge number of captured DHCP packets
+  - Click on any DHCP packet and expand the Ethernet II node 
+  - close all tabs   
+</details>
+
+<details>
+<summary>Perform Network Sniffing using Various Sniffing Tools</summary>
+
+* Perform Password Sniffing using Wireshark :~
+  - Windows Server 2019 machine and login
+  - lunch the wireshark
+  - back to the windows 11 and open we browser and open website and login 
+    ```console
+         http://www.moviescope.com/
+    ```
+  - login this website and come back to the windows server 2019
+  - open wireshark in the wireshark save the captured packets as password sniffing
+  - filter (Wireshark only filters http POST traffic packets):
+    ```console
+         http.request.method == POST
+    ```   
+  - navigate to Edit --> Find Packet 
+  - Find Packet section appears
+    - Display filter --> String  
+    - Narrow & Wide --> Narrow (UTF-8 / ASCII)   
+    - Packet list --> Packet details  
+  - In the field next to String, type pwd and click the Find
+  - Wireshark will now display the sniffed password from the captured packets
+  - Close the Wireshark window
+
+  - switch to the Windows 11 machine, close the web browser, and sign out from the Admin account
+  - switch back to the Windows Server 2019
+  - open remote desktop option and connect to the windows 11 Jason user in the ip of the 10.10.1.11
+  - remote connection is appears
+  - opem the contro pannel
+    - system and security --> windows tools --> services --> remote packet capture protocal v.0(experimental) --> start
+  - status is showing as the running
+  - close all tabs including remote desktop connection also
+  - in Windows Server 2019, launch Wireshark and click on Capture options:
+    - Manage Interfaces --> Remote Interfaces --> Add a remote host and its interface(+) --> create using user ip and port 
+  - select created interface and start the wireshark
+  - open windows 11 using Jason user
+  - open browser and browse anything and what you brows in Jason account it will capture in the windowss server 2019 wireshark
+  - close all the tab             
+</details>
+
+<details>
+<summary>Detect Network Sniffing</summary>
+
+* Detect ARP Poisoning and Promiscuous Mode in a Switch-Based Network :~
+  - switch to the Windows Server 2019 machine
+  - In the Desktop window open the cain tool 
+  - click Configure from the menu bar to configure an ethernet card
+  - The Sniffer tab is selected by default. Ensure that the Adapter associated with the IP address and then click ok
+  - Click the Start/Stop Sniffer icon and click the Sniffer tab
+  - Click the plus (+) icon or right-click in the window and select Scan MAC Addresses to scan the network for hosts
+  - The MAC Address Scanner window appears. Check the All hosts in my subnet radio button. Select the All Tests checkbox and then ok
+  - Cain & Abel starts scanning for MAC addresses and lists all those found
+  - a list of all active IP addresses along with their corresponding MAC addresses is displayed
+  - click the APR tab at the bottom
+  - Click the plus (+) icon; a New ARP Poison Routing window appears
+  - To monitor the traffic between two systems (here, Windows 11 and Parrot Security), from the left-hand pane, click to select 10.10.1.11 (Windows 11) and from the right-hand pane, click 10.10.1.13 (Parrot Security); click OK
+  - Click on the Start/Stop APR
+  - fter clicking on the Start/Stop APR icon, Cain & Abel starts ARP poisoning and the status of the scan changes to Poisoning
+  - you need to ping one target machine using the other
+  - switch to the Parrot Security machine and run sudo su and cd for root directory
+  - run :
+    ```console
+         hping3 [Target IP Address] -c 100000
+    ```
+  - switch to the Windows Server 2019 machine and open the wireshark
+    - wireshark --> edit --> preferences --> protocal --> ARP/RARP --> Detect ARP request storms 
+  - click ok
+  - and select the interface ethernet 2and ender its start capturing 
+  - stop the capturing 
+  - go to the analyse and expert information  and we can see all the packet information over there
+  - close the wireshark and open the ubantu
+  - open terminal and sudo su for root user
+  - we check promiscous mode is on or off
+  - run the nmap script:
+    ```console
+         nmap --script=sniffer-detect <Target IP Address>
+    ```
+  - The scan results appear, displaying Likely in promiscuous mode under the Host script results section. This indicates that the target system is in promiscuous mode
+  - close all tabs           
+</details>
