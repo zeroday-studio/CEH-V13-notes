@@ -1696,7 +1696,63 @@ It’s basically a wrapper around the OpenAI API.
 
 # Session Hijacking
 <details>
-<summary></summary>
+<summary>Perform Session Hijacking</summary>
 
+* Hijack a Session using Caido :~
+  - open windows 11
+  - open cmd as a administrator
+  - type command ipconfig/flushdns
+  - search caido and edit the menu biside the start button and edit it
+  - Edit Instance window, click on the radio button besides All interfaces (0.0.0.0) to listen on all the available network interfaces and click on Save
+  - login to the caido account and open the caido account
+  - Once logged in, Register your Caido Instance pop-up will appear. Type Session Hijacking and click Register
+  - Click on + Create a project button to create a new project. Create a project pop-up appears, name it as Session Hijacking
+  - Click on Intercept option
+  - Click the Forwarding icon and wait until it changes to Queuing
+  - go to the windows server 2019
+  - Open Firefox web browser and navigate to http://10.10.1.11:8080/ca.crt. CA certificate will be downloaded 
+  - open the settings of the firefox and add the certification and add proxy ip of attackrs
+  - Set HTTP Proxy to 10.10.1.11 and port to 8080
+  - Open a new tab in Firefox web browser and place your mouse cursor in the address bar, type www.moviescope.com
+  - go back to the window 11 and open the caido 
+  - on the request tab 
+  - www.goodshopping.com in all the captured GET requests and Forward all the requests
+  - modify every GET request of www.moviescope.com to www.goodshopping.com
+  - now go back to the 2019 machine you will see the website is redirect to the www.goodshopping.com
 
+* Intercept HTTP Traffic using Hetty :~
+  - open windows 11 and open the hetty.exe 
+  - it will running on the cmd and open the firefox and type 
+    - http://localhost:8080
+  - hetty will open in browser
+  - click the MANAGE PROJECTS button
+  - type Project name as Moviescope and click + CREATE & OPEN PROJECT button
+  - You can observe that a new project name Moviescope has been created under Manage projects section with a status as Active
+  - Click Proxy logs icon ( 2022-04-13_15-20-45.png)) from the left-pane
+  - open windows server 2022
+  - Open Google Chrome web browser, click the Customize and control Google Chrome icon, and select Settings
+  - enable the proxy and port
+  - the web browser go to http://www.moviescope.com
+  - go back to the windows 11
+  - You can observe that the logs are captured in the Proxy logs page. Here, we are focusing on logs associated with moviescope.com website
+  - go back to the 2022 mechine and login to moviescope website using its credentials
+  - come back to the windows 11 and open hetty and find the POST request and Select the POST request and in the lower section of the page, select Body tab under POST section
+  - Under the Body tab, you can observe the captured user credentials
+  - go back to the 2022 machine and turn off the proxy settings  
+</details>
+
+<details>
+<summary>Detect Session Hijacking</summary>
+
+* Detect Session Hijacking :~
+  - open the windows 11 machine and open the wireshark with ethernet interface
+  - we shall launch a session hijacking attack on the target machine (Windows 11) using bettercap
+  - open the kai linux and sudo su and cd and type:
+    - bettercap -iface eth0
+    - -iface: specifies the interface to bind to (here, eth0)
+  - Type net.probe on and press Enter
+  - Type net.recon on and press Enter (The net.recon module displays the detected active IP addresses in the network. In real-time, this module will start sniffing network packets)
+  - Type net.sniff on and press Enter
+  - You can observe that bettercap starts sniffing network traffic on different machines in the network
+  - witch back to the Windows 11 machine and observe the huge number of ARP packets captured by the Wireshark  
 </details>
