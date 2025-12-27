@@ -1907,4 +1907,86 @@ It’s basically a wrapper around the OpenAI API.
   - Open File Explorer and Navigate to C: drive, you can see that the malicious file is successfully transferred             
 </details>
 
+# Hacking Web Servers
+<details>
+<summary>Footprint the Web Server</summary>
+
+* Footprint a Web Server using Netcat and Telnet :~
+  - open the parrot mechine and open terminal and enter sudo su for root access
+  - now i am footprint the web-server using Netcat
+  - using this Natcat command
+    ```console
+          nc -vv www.moviescope.com 80
+    ```
+    - nc = netcat
+    - -vv = very verbos
+    - 80 = port number
+  - after this command enter this
+    - GET / HTTP/1.0
+  - click enter 2 times and here your details 
+  - clear
+
+  - now we are using telnet for webserver footprinting
+  - using this Telnet commmand 
+    ```console
+          telnet www.moviescope.com 80
+    ```
+  - after this command enter this
+    - GET / HTTP/1.0
+  - click enter 2 times and here your details
+
+* Enumerate Web Server Information using Nmap Scripting Engine (NSE) :~
+  - open parrote machine terminal and sudo su for root user
+  - This script enumerates and provides you with the output details
+    ```console
+          nmap --script hostmap-bfk -script-args hostmap-bfk.prefix=hostmap- www.goodshopping.com
+    ```
+  - This script will detect a vulnerable server that uses the TRACE method by sending an HTTP TRACE request that shows if the method is enabled or not
+    ```console
+          nmap --script http-trace -d www.goodshopping.com
+    ```
+  - This command will scan the host and attempt to determine whether a web server is being monitored by an IPS, IDS, or WAF
+    ```console
+          nmap -p80 --script http-waf-detect www.goodshopping.com
+    ```
+  - This concludes the demonstration of how to enumerate web server information using the Nmap Scripting Engine (NSE)                            
+</details>
+
+<details>
+<summary>Perform a Web Server Attack</summary>
+
+* Crack FTP Credentials using a Dictionary Attack :~
+  - open the parrot machine and open the terminal and and type the sudo su for root users
+  - Perform an Nmap scan on the target machine (Windows 11) to check if the FTP port is open
+    ```console
+          nmap -p 21 [IP Address of target system]
+    ```
+  - Observe that port 21 is open in Windows 11 and Check if an FTP server is hosted on the Windows 11 machine        
+  - ftp [IP Address of target mechine]
+  - You will be prompted to enter user credentials. The need for credentials implies that an FTP server is hosted on the machine
+  - Try entering random usernames and passwords in an attempt to gain FTP access
+  - you will not be able to log in to the FTP server. Close the terminal window
+  - to attempt to gain access to the FTP server, perform a dictionary attack using the THC Hydra tool
+  - copy Wordlists folder and Paste the copied folder (Wordlists) on the Desktop
+  - In the Parrot Security machine, open a Terminal window and execute sudo su to run the programs as a root user 
+  - enter the commands Hydra tries various combinations of usernames and passwords 
+    ```console
+          hydra -L /home/attacker/Desktop/Wordlists/Usernames.txt -P /home/attacker/Desktop/Wordlists/Passwords.txt ftp://[IP Address of target mechine]
+    ```
+  - On completion of the password cracking, the cracked credentials appear
+  - Try to log in to the FTP server using one of the cracked username and password combinations. In this lab, use Martin's credentials to gain access to the server
+  - In the terminal window, run
+    - ftp [IP Address of target machine]
+  - Enter Martin's user credentials (Martin and apple) to check whether you can successfully log in to the server
+  - On entering the credentials, you will successfully be able to log in to the server
+  - you can remotely access the FTP server hosted
+  - Run mkdir Hacked to remotely create a directory named Hacked on the Windows 11 machine through the ftp terminal
+  - open target mechine and open c:\ftp
+  - switch back to parrot machine and help and it will show all commands
+  - quit
+  - This concludes the demonstration of how to crack FTP credentials using a dictionary attack and gain remote access to the FTP server         
+
+
+</details>
+
 
