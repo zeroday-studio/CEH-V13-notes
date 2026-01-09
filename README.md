@@ -2365,7 +2365,7 @@ It’s basically a wrapper around the OpenAI API.
   - Type TASKLIST and press Enter to view a list of tasks that are currently running on the target system  
 </details>
 
-<detals>
+<details>
 <summary>Detect SQL Injection Vulnerabilities using Various SQL Injection Detection Tools</summary>
 
 * Detect SQL Injection Vulnerabilities using OWASP ZAP :~
@@ -2379,7 +2379,7 @@ It’s basically a wrapper around the OpenAI API.
   - practical is done
 </details>
 
-<detals>
+<details>
 <summary>Perform SQL Injection using AI</summary>
 
 * Perform SQL Injection using ShellGPT :~
