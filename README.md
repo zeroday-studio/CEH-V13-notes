@@ -2408,8 +2408,24 @@ It’s basically a wrapper around the OpenAI API.
 
 # Hacking Wireless Networks
 <details>
-<summary></summary>
+<summary>Perform Wireless Traffic Analysis</summary>
 
+* Wi-Fi Packet Analysis using Wireshark :~
+  - tool = wireshark
+  - we are observe the WPA2crack-01.cap file in wireshark here 
+  - analysing the packets
+</details>
 
+<details>
+<summary>Perform Wireless Attacks</summary>
 
+* Crack a WPA2 Network using Aircrack-ng :~
+  - tool = aircrack-ng
+  - open terminal in parrot machine and type sudo su
+  - create simple handshake file and password file
+  - run this command for crack the wpa2 passworf
+    ```console
+          aircrack-ng -a2 -b [Target BSSID] -w /home/attacker/Desktop/Wordlist/password.txt '/home/attacker/Desktop/Sample Captures/WPA2crack-01.cap'
+    ```
+  - you did the practical        
 </details>
