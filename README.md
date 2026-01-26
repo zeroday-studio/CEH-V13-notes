@@ -2491,3 +2491,122 @@ It’s basically a wrapper around the OpenAI API.
   - after scanning it will give the report of is their any malware and threats 
   - after that you can fix this and delete this
 </details>
+
+# IoT and OT Hacking
+<details>
+<summary>Perform Footprinting using Various Footprinting Techniques</summary>
+
+* Gather Information using Online Footprinting Tools :~
+  - open windows machine and open the firefox and tab and ope this
+    ```console
+          https://www.whois.com/whois
+    ```
+  - type www.oasis-open.org and click search
+  - open a new tab, and go to
+    ```console
+          https://www.exploit-db.com/google-hacking-database
+    ```
+  - type SCADA in the Quick Search field and press Enter
+  - Open a new tab and go to https://www.google.com. In the search field, enter   
+    ```console
+          "login" intitle:"scada login"
+    ```
+  - The search result appears; click any link (here, SEAMTEC SCADA login)
+  - you can use advanced search operators such as intitle:"index of" scada to search sensitive SCADA directories
+  - open a new tab and go to 
+    ```console
+          https://account.shodan.io/login
+    ```
+  - login to the shodan
+  - The Shodan main page appears; type port:1883 in the address bar and press Enter
+  - Similarly, you can gather additional information on a target device using the following Shodan filters:
+    - Search for Modbus-enabled ICS/SCADA systems:
+      - port:502
+    - Search for SCADA systems using PLC name:
+      - "Schneider Electric"
+    - Search for SCADA systems using geolocation:
+      - SCADA Country:"US"  
+  - Using Shodan, you can obtain the details of SCADA systems that are used in water treatment plants, nuclear power plants, HVAC systems, electrical transmission systems, home heating systems
+</details>
+
+<details>
+<summary>Capture and Analyze IoT Device Traffic</summary>
+
+* Capture and Analyze IoT Traffic using Wireshark :~
+  - MQTT port number = 1883
+  - To install the MQTT Broker on the Windows Server 2019
+  - open windows server 2019 and login
+  - install the Bevywise_MQTTRoute_4.exe file and install and launch
+  - The MQTTRoute will execute and the command prompt will appear. You can see the TCP port using 1883
+  - leave the Bevywise MQTT running
+  - switch to Windows Server 2022 machine
+  - install the Bevywise_IoTSimulator_3.exe in this mechine
+  - navigate to the C:\Bevywise\IotSimulator\bin directory and double-click on the runsimulator.bat file
+  - select Microsoft Edge browser and click OK to open the URL
+    ```console
+           http://127.0.0.1:9000/setnetwork?network=HEALTH_CARE
+    ```
+  - In the IoT Simulator, you can view the default network named HEALTH_CARE and several devices
+  - we will create a virtual IoT network and virtual IoT devices
+    - in the +new network option
+    - type any name and create network
+  - In the next screen, we will setup the Simulator Settings. Set the Broker IP Address as 10.10.1.19
+  - Do not change default settings and click on Save
+  - click on the Add blank Device button
+  - Create New Device popup opens. Type the device name (here, we use Temperature_Sensor), enter Device Id (here, we use TS1) and click enter
+  - The device will be added to the CEH_FINANCE_NETWORK
+  - To connect the Network and the added devices to the server or Broker, click on the Start Network red color circular icon in right corner
+  - When a connection is established between the network and the added devices and the web server or the MQTT Broker, the red button turns into green
+  - go to the 2019 machine and open this
+    ```console
+          http://localhost:8080
+    ```
+    - username/password = admin/admin
+  - switch back to the 2022 machine and we will create the Subscribe command for the device Temperature_Sensor
+  - Click on the Plus icon in the top right corner and select the Subscribe to Command option
+    - Subscribe on = on start
+    - Topic tab = High_Tempe
+    - Qos = 1 Atleast once
+    - click save
+  - we will capture the traffic between the virtual IoT network and the MQTT Broker to monitor the secure communication using wireshark
+  - open the wireshark and select the ethernet interface in 2022 machine
+  - go back to the 2019 and click TS1 and send the message using subscriber command
+    - Topic = High_Tempe 
+    - Message = Alert for High Temperature 
+    - submit
+  - come back to the 2022 machine and in the device log the sended message will came 
+  - open the wireshark and in the filter type MQTT so all the MQTT are come
+  - expend and see the packet list pannel the information about the message is their
+  - Similarly you can select Ping Request, Ping Response and Publish Ack packets and observe the details                    
+</details>
+
+<details>
+<summary>Perform IoT Attacks</summary>
+
+* Perform Replay Attack on CAN Protocol :~
+  - using CAN protocol
+  - open the ubuntu and type sudo su for root user
+  - The can-utils package is already installed on the system
+  - Now, to setup a virtual CAN interface issue following commands:
+    ```console
+          sudo modprobe can
+          sudo modprobe vcan
+          sudo ip link add dev vcan0 type vcan
+          sudo ip link set up vcan0
+    ```
+  - To check whether Virtual CAN interface is setup successfully, run ifconfig
+  - vcan0 interface
+  - Run chmod -R 777 = ICSim to give permissions to the ICSim folder  
+  - run cd ICSim 
+  - exicute "make" command to create two executable files for IC Simulator and CANBus Control Panel   
+  - Run ./icsim vcan0 to start the ICSim simulator
+  - Open a new terminal tab and execute sudo su to run the programs as a root user and cd ICSim
+  - Execute ./controls vcan0 to start the CANBus Control Panel
+  - we will start sniffer to capture the traffic sent to the ICSim Simulator by CANBus control panel simulator
+  - open the new terminal and sudo su and cd ICSim
+  - Execute cansniffer -c vcan0 = to start sniffing on the vcan0 interface
+  - open the new terminal and type sudo su and cd ICSim
+  - To capture the logs run = candump -l vcan0  
+  - The .log file has been generated
+  - run canplayer -I candump-2024-05-07_063502.log and press enter
+</details>
