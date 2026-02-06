@@ -2710,8 +2710,9 @@ It’s basically a wrapper around the OpenAI API.
           sgpt --shell "Encode 'Hello World' text using base64 algorithm and save the result to Output.txt file"
     ```
   - if you want to open the Output.txt file use pluma Output.txt
-  - decode the encoded data using this command
-    ```sgpt --shell "Decode the contents of encoded Output.txt file located at /home/attacker using base64 algorithm"
+  - decode the encoded data using this command:
+    ```console
+          sgpt --shell "Decode the contents of encoded Output.txt file located at /home/attacker using base64 algorithm"
     ```
   - if you want to open decoded output use pluma Decoded Output.txt
 </details>
