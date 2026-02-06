@@ -2610,3 +2610,108 @@ It’s basically a wrapper around the OpenAI API.
   - The .log file has been generated
   - run canplayer -I candump-2024-05-07_063502.log and press enter
 </details>
+
+# Cloud Computing
+<details>
+<summary>Perform Reconnaissance on Azure</summary>
+
+* Azure Reconnaissance with AADInternals :~
+  - 
+
+</details>
+
+# Cryptography
+<details>
+<summary>Encrypt the Information using Various Cryptography Tools</summary>
+
+* Perform Multi-layer Hashing using CyberChef :~
+  - open the windows 11 and create one text file and remane it and save that file with some words or information
+  - open the cyberchef using this link
+    ```console
+          https://gchq.github.io/CyberChef/
+    ```
+  - upload that text document by clicking Open file as input
+  - file is added to that cyberchef
+  - add the hashing MD%, SHA1 and other drag and drop all these in recip section
+  - in the output field you can get the cipertext
+  - we can set break point to the hash operation by clicking on the Set breakpoint button present in the Recipe
+
+* Perform File and Text Message Encryption using CryptoForge :~
+  - tool = CryptoForge 
+  - extension of the encrypted file = .cfe
+  - open the windows 11 and enctrypt the file using cryptoforge tool
+  - assume that you are sending that encrypted file to someone 
+  - in that another device you must enter the password for decrypt            
+</details>
+
+<details>
+<summary>Create a Self-signed Certificate</summary>
+
+* Create and Use Self-signed Certificates :~
+  - tool = Internet Information Services (IIS) Manager
+  - open the server 2019 and try to browse this website in https
+    ```console
+          www.goodshopping.com
+    ```
+    - unable to oepn the page
+  - open the IIS in this server and go to SERVER2019 SERVER2019\Administrator under the commection  
+  - In SERVER2019 Home, double-click Server Certificates in the IIS section
+  - click Create Self-Signed Certificate in action option
+  - in Create Self-Signed Certificate:
+    - Specify a friendly name for the certificate = GoodShopping
+    - Select a certificate store for the new certificate = personal
+    - A newly created self-signed certificate will be displayed
+  - Expand the Sites node from the left-hand pane, and select GoodShopping
+  - Click Bindings in action section
+  - in site binding click add site binding window appears:
+    - type = https
+    - port = 443
+    - IP address = your system ip address
+    - host name = www.goodshopping.com
+    - SSL certificate = GoodShopping
+    - clicl ok
+  - The newly created SSL certificate is added to the Site Bindings
+  - refresh the GoodShopping once and open the brower and browse the same website with https
+  - it will now open with selt signed certificate
+</details>
+
+<details>
+<summary>Perform Disk Encryption</summary>
+
+* Perform Disk Encryption using VeraCrypt :~
+  - tools = VeraCrypt
+  - setup the veracrypt in your system and in that time create one file like myvolume
+  - after installation select the virtual drive using created volume and mount that volume to the virtual drive
+  - storage any data or file in that virtual disk and demount and exit the veracrypt 
+  - the virtual disk will be vanished
+  - if you want that virtual disk again open veracrypt and mount the volume agaun with password
+</details>
+
+<details>
+<summary>Perform Cryptography using AI</summary>
+
+* Perform Cryptographic Techniques using ShellGPT :~
+  - tool = sgpt
+  - activate the sgpt using bash sgpt.sh command and with activation key
+  - for calculate value of the given text:
+    ```console
+          sgpt --shell "Calculate MD5 hash of text 'My Account number is 0234569198'"
+    ```
+  - we will perform multi-layer hasking using this command:
+    ```console
+          sgpt --shell "Calculate MD5 hash of text 'My Account number is 0234569198' and calculate the SHA1 hash value of the MD5 value"
+    ```              
+  - We will now calculate hash of a file using this command:
+    ```command
+          sgpt --chat hash --shell "Calculate CRC32 hash of the file passwords.txt located at /home/attacker"
+    ```
+  - to perform basic encoding using this command
+    ```console
+          sgpt --shell "Encode 'Hello World' text using base64 algorithm and save the result to Output.txt file"
+    ```
+  - if you want to open the Output.txt file use pluma Output.txt
+  - decode the encoded data using this command
+    ```sgpt --shell "Decode the contents of encoded Output.txt file located at /home/attacker using base64 algorithm"
+    ```
+  - if you want to open decoded output use pluma Decoded Output.txt
+</details>
