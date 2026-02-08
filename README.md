@@ -1,6 +1,5 @@
 # CEH-V13-Notes
 # Footprinting and Reconnaissance
-
 <details>
 <summary>Google Search Engines</summary>   
 
@@ -152,7 +151,9 @@
   - website: 
     ```console
           https://www.social-searcher.com
-    ```        
+    ``` 
+</details>
+           
 <details>
 <summary>Whois Lookup Using Domain Tools</summary>
 
@@ -283,8 +284,7 @@
 <summary>using sgpt</summary>
  
  * sgpt :~
-  - sgpt is a small CLI (command-line) tool that lets you talk to OpenAI’s GPT (ChatGPT) from your terminal.
-It’s basically a wrapper around the OpenAI API.
+  - sgpt is a small CLI (command-line) tool that lets you talk to OpenAI’s GPT (ChatGPT) from your terminal. It’s basically a wrapper around the OpenAI API.
   - commands: 
     ```console
          sgpt --chat footprint --shell "Use theHarvester to gather email accounts associated with 'microsoft.com', limiting results to 200, and leveraging 'baidu' as a data source"
