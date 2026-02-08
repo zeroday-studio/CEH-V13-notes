@@ -52,7 +52,11 @@
     * Risk/Threat intelligence — in some paid tiers you get richer threat signals and aggregator data
     ```console
         https://www.netcraft.com/platform/threat-intelligence/reporting-and-dashboards
-    ```    
+    ```  
+  - using this to find list of DNS Servers, MX Records, Host Record (A) and GEOIP 
+    ```console
+          https://dnsdumpster.com/
+    ```          
 </details>
 
 <details>
@@ -134,13 +138,21 @@
       * SCTP scan (--sctp) — scan SCTP services if needed
 
 * Sherlock :~
+  - commad:
+    ```console
+          sherlock "search_any_names_anything"
+    ```      
   - Sherlock is an open-source OSINT tool written in Python that helps you find usernames across many social networks and websites automatically
-    - Username enumeration — check if a username exists on hundreds of sites at once
-    - Digital footprinting — map a person’s or brand’s online presence.
-    - Investigation support — gather publicly available info for threat intel, brand protection, or law-enforcement  work.
-    - Reconnaissance for red-team/social engineering — identify where a target might have accounts (defensive use only)  
-</details>
-
+    - Username enumeration 
+    - Digital footprinting 
+    - Investigation support 
+    - Reconnaissance for red-team/social engineering 
+* Social researcher :~
+  - to gather additional information related to the target company and its employees from social networking sites
+  - website: 
+    ```console
+          https://www.social-searcher.com
+    ```        
 <details>
 <summary>Whois Lookup Using Domain Tools</summary>
 
@@ -245,6 +257,25 @@
     - db intert domains  -  (used to add the domain name)
     - modules load modulesname  -  (used for load the modules)
     - back  -  (used to come back to the privious module)
+  - modules:
+    - recon/domains-hosts/brute_hosts (to harvest the hosts)
+      - run
+    - modules load recon/domains-hosts/bing_domain_web
+      - run
+    - recon/hosts-hosts/reverse_resolve (for reverse lookup)
+      - run
+      - show host
+    - reporting/html (creating report)
+      - options set FILENAME /filepath/filename.html   
+      - options set CREATOR [your name]
+      - options set CUSTOMER [customer name]
+      - run
+    - recon/domains-contacts/whois_pocs(for uses the ARIN Whois RWS to harvest POC data)
+      - options set SOURCE facebook.com
+      - run
+    - recon/domains-hosts/hackertarget (To extract a list of subdomains and IP)
+      - options set SOURCE <domain_name>
+      - run      
   ```
 </details>
 
@@ -254,10 +285,18 @@
  * sgpt :~
   - sgpt is a small CLI (command-line) tool that lets you talk to OpenAI’s GPT (ChatGPT) from your terminal.
 It’s basically a wrapper around the OpenAI API.
-  - commands
-    - sgpt "--------------" or
-    - sgpt --chat nameofthetopic --shell "---------------"
+  - commands: 
+    ```console
+         sgpt --chat footprint --shell "Use theHarvester to gather email accounts associated with 'microsoft.com', limiting results to 200, and leveraging 'baidu' as a data source"
 
+         sgpt --chat footprint --shell "Use Sherlock to gather personal information about 'Sundar Pichai' and save the result in recon2.txt"
+
+         sgpt --chat footprint --shell "Install and use DNSRecon to perform DNS enumeration on the target domain www.certifiedhacker.com"
+
+         sgpt --chat footprint --shell "Perform network tracerouting to discover the routers on the path to a target host www.certifiedhacker.com"
+
+         sgpt --chat footprint --shell "Develop a Python script which will accept domain name microsoft.com as input and execute a series of website footprinting commands, including DNS lookups, WHOIS records retrieval, email enumeration, and more to gather information about the target domain" 
+    ```
 </details>
 
 <details>
@@ -281,12 +320,9 @@ It’s basically a wrapper around the OpenAI API.
 * Kloth.net — a simple external DNS lookup window you can use when your local resolver lies to you
 * EmailTrackerPro — a tracker’s motion sensor that logs when an email is opened and from roughly where
 * sgpt — a terminal-based assistant that brings ChatGPT into your shell like a pocket consultant
-
 </details>
 
-
 # Scanning Networks
-
 <details>
 <summary>Explain Network scanning concepts</summary>
 
