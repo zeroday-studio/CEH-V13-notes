@@ -153,7 +153,7 @@
           https://www.social-searcher.com
     ``` 
 </details>
-           
+
 <details>
 <summary>Whois Lookup Using Domain Tools</summary>
 
@@ -288,13 +288,17 @@
   - commands: 
     ```console
          sgpt --chat footprint --shell "Use theHarvester to gather email accounts associated with 'microsoft.com', limiting results to 200, and leveraging 'baidu' as a data source"
-
+    ```
+    ```console
          sgpt --chat footprint --shell "Use Sherlock to gather personal information about 'Sundar Pichai' and save the result in recon2.txt"
-
+    ```
+    ```console
          sgpt --chat footprint --shell "Install and use DNSRecon to perform DNS enumeration on the target domain www.certifiedhacker.com"
-
+    ```
+    ```console 
          sgpt --chat footprint --shell "Perform network tracerouting to discover the routers on the path to a target host www.certifiedhacker.com"
-
+    ```
+    ```console 
          sgpt --chat footprint --shell "Develop a Python script which will accept domain name microsoft.com as input and execute a series of website footprinting commands, including DNS lookups, WHOIS records retrieval, email enumeration, and more to gather information about the target domain" 
     ```
 </details>
