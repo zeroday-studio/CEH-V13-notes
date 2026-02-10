@@ -432,11 +432,128 @@
              sudo su
              msfconsole
              nmap -Pn -sS -A -oX test <target ip range>
-             search <module name>
-             use <module name>
+             search <module name portscan>
+             use <module name portscan syn>
+             set INTERFACE eth0
+             set PORTS 80
              set RHOSTS <ip range>
              set THREADS 50 or 10
+             run
   ```
+</details>
+
+<details>
+<summary>Scan a Target using ShellGPT</summary>
+
+```console
+      sgpt --chat scan --shell "Use hping3 to perform ICMP scanning on the target IP address 10.10.1.11 and stop after 10 iterations"
+```
+```console
+      sgpt --chat scan --shell "Run a hping3 ACK scan on port 80 of target IP 10.10.1.11"
+```
+```console
+      sgpt --chat scan --shell "Scan the target network 10.10.1.0/24 for active hosts and place only the IP addresses into a file scan1.txt"
+```
+```console
+      sgpt --chat scan --shell "Run a fast but comprehensive nmap scan against scan1.txt with low verbosity and write the results to scan2.txt"
+```
+```console
+      sgpt --chat scan --shell "Use nmap to perform ICMP ECHO ping sweep on the target network 10.10.1.0/24"
+```
+```console
+      sgpt --chat scan --shell "Use nmap to find open ports on target IP 10.10.1.11"
+```
+```console
+      sgpt --chat scan --shell "Perform stealth scan on target IP 10.10.1.11 and display the results"
+```
+```console
+      sgpt --chat scan --shell "Perform an XMAS scan on target IP 10.10.1.11"
+```
+```console
+      sgpt --chat scan --shell "Use Nmap to scan for open ports and services against a list of IP addresses in scan1.txt and copy only the port, service and version information with the respective IP address to a new file called scan3.txt"
+```
+```console
+      sgpt --chat scan --shell "Use Metasploit to discover open ports on the IP address 10.10.1.22"
+```
+```console
+      sgpt --chat scan --shell "Use Nmap to scan open ports, MAC details, services running on open ports with their versions on target IP 10.10.1.11"
+```
+```console
+      sgpt --chat scan --shell "Use TTL value and identify the operating system running on the target IP address 10.10.1.11, display the TTL value and OS"
+```
+```console
+      sgpt --chat scan --shell "Use TTL value and identify the operating system running on the target IP address 10.10.1.9, display the TTL value and OS"
+```
+```console
+      sgpt --chat scan --shell "Use Nmap script engine to perform OS discovery on the target IP addresses in scan1.txt"
+```
+```console
+      sgpt --chat scan --shell "Develop a script which will automate network scanning efforts and find out live systems, open ports, running services, service versions, etc. on target IP range 10.10.1.0/24" 
+```
+```console
+      sgpt --chat scan --shell "To evade an IDS/Firewall, use IP address decoy technique to scan the target IP address 10.10.1.22"
+```
+```console
+      sgpt --chat scan --shell "Within scan1.txt file remove 10.10.1.14 and 10.10.1.13 entries, then display results"
+```
+```console
+      sgpt --chat scancode --code "Create a python script to run a fast but comprehensive Nmap scan on the IP addresses in scan1.txt and then execute vulnerability scanning using nikto against each IP address in scan1.txt"
+```
+</details>
+
+<details>
+<summary>Hping</summary>
+
+* its a network scanning tool and command-line tool
+* hping command:
+  - ICMP ping
+    ```console
+         hping3 -1 10.0.0.25
+    ```
+  - ACK scan on port 80 
+    ```console
+         hping3 –A 10.0.0.25 –p 80
+    ```
+  - UDP scan on port 80 
+    ```console
+         hping3 -2 10.0.0.25 –p 80 
+    ```
+  - Collecting Initial Sequence Number
+    ```console
+         hping3 192.168.1.103 -Q -p 139
+    ```
+  - Firewalls and Timestamps
+    ```console
+         hping3 -S 72.14.207.99 -p 80 --tcp-timestamp
+    ```
+  - SYN scan on port 50-60 
+    ```console
+         hping3 -8 50-60 –S 10.0.0.25 –V
+    ```
+  - FIN, PUSH and URG scan on port 80
+    ```console
+         hping3 –F –P –U 10.0.0.25 –p 80
+    ```
+  - Scan entire subnet for live host 
+    ```console
+         hping3 -1 10.0.1.x --rand-dest –I eth0
+    ```
+  - Intercept all traffic containing HTTP signature 
+    ```console
+         hping3 -9 HTTP –I eth0                    
+    ```
+  - SYN flooding a victim 
+    ```console
+         hping3 -S 192.168.1.1 -a 192.168.1.254 -p 22 --flood 
+    ```
+* Hping Scan with AI :~
+  ```console
+       Use Hping3 to perform ICMP scanning on the target IP address 10.10.1.11 and stop after 10 iterations
+  ```
+  ```console
+       Run an hping3 ACK scan on port 80 of target IP 10.10.1.11
+  ```
+  ```console
 </details>
 
 # Enumeration
